@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/colorWhite" />
+    <item android:id="@+id/splash_layer"
+        android:top="80dp"
+        android:bottom="80dp"
+        android:left="80dp"
+        android:right="80dp">
+        <bitmap android:src="@drawable/img_logo_txt"
+            android:gravity="center" />
+    </item>
+</layer-list>

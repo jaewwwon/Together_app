@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.together">
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+    <!-- <uses-permission android:name="com.Provider.Student.Permission.READ /> -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <!-- 스플래쉬 화면 -->
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 로그인 화면 -->
+        <activity android:name=".LoginActivity" />
+
+        <!-- 회원가입(약관동의) 화면 -->
+        <activity android:name=".RegisterAgreeActivity" />
+
+        <!-- 회원가입(정보입력) 화면 -->
+        <activity android:name=".RegisterInfoActivity" />
+
+        <!-- 비밀번호 찾기 화면 -->
+        <activity android:name=".FindPasswordActivity" />
+
+        <!-- 홈 화면 -->
+        <activity android:name=".MainActivity" />
+
+        <!-- 모임 만들기(카테고리선택) 화면 -->
+        <activity android:name=".CreateGroupCategoryActivity" />
+
+        <!-- 모임 만들기(정보입력) 화면 -->
+        <activity android:name=".CreateGroupInfoActivity" />
+
+        <!-- 일정 전체보기 화면 -->
+        <activity android:name=".SearchScheduleActivity" />
+
+        <!-- 모임 전체보기 화면 -->
+        <activity android:name=".SearchGroupActivity" />
+
+        <!-- 모임 상세(정보) 화면 -->
+        <activity android:name=".GroupInfoActivity" />
+
+        <!-- 모임 상세(일정) 화면 -->
+        <activity android:name=".GroupScheduleActivity" />
+
+        <!-- 일정 추가 팝업 -->
+        <activity android:name=".PopupScheduleAddActivity" />
+
+        <!-- 일정 수정 팝업 -->
+        <activity android:name=".PopupScheduleModifyActivity" />
+
+        <!-- 일정 수정/삭제 알림 팝업 -->
+        <activity
+            android:name=".PopupScheduleUtilActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <!-- 위치 검색(지도) 화면 -->
+        <activity android:name=".SearchLocationActivity" />
+
+        <!-- 모임 상세(게시판 목록) 화면 -->
+        <activity android:name=".GroupBoardActivity" />
+
+        <!-- 모임 상세(게시판 상세) 화면 -->
+        <activity android:name=".GroupBoardViewActivity" />
+
+        <!-- 모임 상세(사진첩) 화면 -->
+        <activity android:name=".GroupPhotoActivity" />
+
+        <!-- 사진 수정/삭제 알림 팝업 -->
+        <activity
+            android:name=".PopupPhotoUtilActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <!-- 모임 상세(채팅) 화면 -->
+        <activity android:name=".GroupChatActivity" />
+
+    </application>
+
+</manifest>
