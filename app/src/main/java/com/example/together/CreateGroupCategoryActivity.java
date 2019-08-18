@@ -48,6 +48,7 @@ public class CreateGroupCategoryActivity extends AppCompatActivity {
                 Intent intent = new Intent(CreateGroupCategoryActivity.this, CreateGroupInfoActivity.class);
                 intent.putExtra("groupCategoryOri", groupCategoryOri);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         });
 

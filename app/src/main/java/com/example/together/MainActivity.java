@@ -695,7 +695,9 @@ public class MainActivity extends AppCompatActivity {
         String TAG_GROUP_NAME = "groupName"; //모임 이름
         String TAG_GROUP_INTRO = "groupIntro"; //모임 소개
         String TAG_GROUP_IMG = "groupImg"; //모임 대표이미지
-        String TAG_GROUP_LOCATION = "groupLocation"; //모임 장소
+        String TAG_GROUP_CITY = "groupCity"; //모임 시도
+        String TAG_GROUP_COUNTY = "groupCounty"; //모임 시군구
+        String TAG_GROUP_DISTRICT = "groupDistrict"; //모임 읍면동
 
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -709,7 +711,9 @@ public class MainActivity extends AppCompatActivity {
                 String groupName = item.getString(TAG_GROUP_NAME);
                 String groupIntro = item.getString(TAG_GROUP_INTRO);
                 String groupImg = item.getString(TAG_GROUP_IMG);
-                String groupLocation = item.getString(TAG_GROUP_LOCATION);
+                String groupCity = item.getString(TAG_GROUP_CITY);
+                String groupCounty = item.getString(TAG_GROUP_COUNTY);
+                String groupDistrict = item.getString(TAG_GROUP_DISTRICT);
 
                 GroupData data = new GroupData();
                 data.setGroupIdx(groupIdx);
@@ -723,7 +727,7 @@ public class MainActivity extends AppCompatActivity {
                     data.setGroupThumbnail("http://www.togetherme.tk/static/images/bg_default_small.gif");
                 }
 
-                data.setGroupLocation(groupLocation);
+                data.setGroupLocation(groupCity + groupCounty + groupDistrict);
 
                 if (groupMemberList.contains(groupIdx)) {
                     int memberCont = 0;

@@ -9,8 +9,6 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +42,13 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_end="16dp" />
 
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="16dp" />
+
 
             <TextView
                 android:id="@+id/textView5"
@@ -56,16 +61,6 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-            <View
-                android:id="@+id/divider6"
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                android:layout_marginTop="12dp"
-                android:background="#dddddd"
-                app:layout_constraintEnd_toStartOf="@+id/divider9"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
 
             <View
                 android:id="@+id/divider9"
@@ -74,7 +69,6 @@
                 android:layout_marginTop="12dp"
                 android:background="#009688"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/divider6"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
             <TextView
@@ -87,7 +81,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/divider6" />
+                app:layout_constraintTop_toBottomOf="@+id/divider9" />
 
             <TextView
                 android:id="@+id/textView17"
@@ -177,19 +171,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="모임장소"
+                android:text="모임지역"
                 android:textColor="#333333"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/groupName" />
 
-            <EditText
+            <TextView
                 android:id="@+id/groupLocation"
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="4dp"
                 android:background="@drawable/style_input_border"
                 android:ems="10"
-                android:hint=""
                 android:inputType="textPersonName"
                 android:padding="10dp"
                 android:textSize="14sp"

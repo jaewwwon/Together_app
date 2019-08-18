@@ -63,7 +63,7 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
     String groupCategoryKey; //intent로 넘겨받은 모임 카테고리 값
     ImageView groupThumbnail; //모임 대표이미지
     EditText groupName; //모임 이름
-    EditText groupLocation; //모임 장소
+    TextView groupLocation; //모임 장소
     EditText groupIntro; //모임 소개
     Button prevButton; //이전으로 버튼
     Button submitButton; //완료 버튼
@@ -88,7 +88,7 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
         Intent intent = getIntent();
         groupCategoryKey = intent.getStringExtra("groupCategoryOri"); //모임 카테고리
 //        Log.e(TAG, groupCategoryKey);
-        
+
         //모임 대표이미지를 클릭했을 경우
         groupThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +96,19 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
                 Intent openGalleryIntent = new Intent(Intent.ACTION_PICK);
                 openGalleryIntent.setType("image/*");
                 startActivityForResult(openGalleryIntent, REQUEST_GALLERY_CODE);
+            }
+        });
+
+        //모임 위치 입력란을 클릭했을 경우
+        groupLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //읍면동 검색 화면으로 이동
+                Intent intent = new Intent(CreateGroupInfoActivity.this, SearchDistrictActivity.class);
+                startActivity(intent);
+                //읍면동 검색 결과 받기
+                startActivityForResult(intent, 3000);
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -111,13 +124,13 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(groupName.getText().toString().length() == 0){
+                if (groupName.getText().toString().length() == 0) {
                     Toast.makeText(CreateGroupInfoActivity.this, "모임이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
-                } else if(groupLocation.getText().toString().length() == 0){
+                } else if (groupLocation.getText().toString().length() == 0) {
                     Toast.makeText(CreateGroupInfoActivity.this, "모임장소를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
-                } else if(groupIntro.getText().toString().length() == 0){
+                } else if (groupIntro.getText().toString().length() == 0) {
                     Toast.makeText(CreateGroupInfoActivity.this, "모임소개를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -146,6 +159,7 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
             }
         });
     }
+
 
     class InsertData extends AsyncTask<String, Void, String> {
         ProgressDialog progressDialog;
@@ -249,6 +263,17 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 3000:
+                    // 읍면동 결과값 입력
+                    groupLocation.setText(data.getStringExtra("districtName"));
+                    Log.e(TAG, "읍면동 결과 값 : " + data.getStringExtra("districtName"));
+                    break;
+            }
+        }
+
         if (requestCode == REQUEST_GALLERY_CODE && resultCode == Activity.RESULT_OK) {
             uri = data.getData();
             if (EasyPermissions.hasPermissions(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -290,6 +315,7 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
                 EasyPermissions.requestPermissions(this, getString(R.string.read_file), READ_REQUEST_CODE, Manifest.permission.READ_EXTERNAL_STORAGE);
             }
         }
+
     }
 
     private String getRealPathFromURIPath(Uri contentURI, Activity activity) {
@@ -335,6 +361,12 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Log.e(TAG, "Permission has been denied");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 }
 

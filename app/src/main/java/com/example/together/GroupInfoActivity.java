@@ -281,7 +281,9 @@ public class GroupInfoActivity extends AppCompatActivity {
         String TAG_GROUP_IDX = "groupIdx"; //모임 index
         String TAG_GROUP_NAME = "groupName"; //모임이름
         String TAG_GROUP_CATEGORY = "groupCategory"; //모임 카테고리
-        String TAG_GROUP_LOCATION = "groupLocation"; //모임 장소
+        String TAG_GROUP_CITY = "groupCity"; //모임 시도
+        String TAG_GROUP_COUNTY = "groupCounty"; //모임 시군구
+        String TAG_GROUP_DISTRICT = "groupDistrict"; //모임 읍면동
         String TAG_GROUP_INTRO = "groupIntro"; //모임 소개란
         String TAG_GROUP_HOST = "groupHost"; //모임장
         String TAG_GROUP_IMG = "groupImg"; //모임 대표이미지
@@ -325,7 +327,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                     //TODO 이미지 태그 안보이는거랑 글씨 간격 해결할 것
                     groupIntro.setText(Html.fromHtml(item.getString(TAG_GROUP_INTRO)));
                     // 모임 장소 입력
-                    groupLocation.setText(item.getString(TAG_GROUP_LOCATION));
+                    groupLocation.setText(item.getString(TAG_GROUP_CITY) + item.getString(TAG_GROUP_COUNTY) + item.getString(TAG_GROUP_DISTRICT));
 
                     if (userInfoList.contains(item.getString(TAG_GROUP_HOST))) {
                         groupHost.setText(userInfoList.get(userInfoList.indexOf(item.getString(TAG_GROUP_HOST)) + 1));

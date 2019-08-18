@@ -14,10 +14,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
     <!-- <uses-permission android:name="com.Provider.Student.Permission.READ /> -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -72,6 +72,9 @@
 
         <!-- 모임 만들기(정보입력) 화면 -->
         <activity android:name=".CreateGroupInfoActivity" />
+
+        <!-- 읍면동 검색 화면 -->
+        <activity android:name=".SearchDistrictActivity" />
 
         <!-- 일정 전체보기 화면 -->
         <activity android:name=".SearchScheduleActivity" />
