@@ -57,9 +57,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemVi
         return listData.size();
     }
 
-    void addItem(int position, ScheduleData data) {
+    void addItem(ScheduleData data) {
         // 외부에서 item을 추가시킬 함수입니다.
-        listData.add(0, data);
+        listData.add(data);
     }
 
     // RecyclerView의 핵심인 ViewHolder 입니다.
@@ -78,6 +78,8 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemVi
             super(itemView);
 
             groupCategory = itemView.findViewById(R.id.groupCategory);
+            //TODO 임시로 가려놓기
+            groupCategory.setVisibility(View.GONE);
             scheduleDate = itemView.findViewById(R.id.scheduleDate);
             scheduleTitle = itemView.findViewById(R.id.scheduleTitle);
             scheduleLocation = itemView.findViewById(R.id.scheduleLocation);

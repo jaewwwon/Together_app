@@ -1,6 +1,7 @@
 package com.example.together;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,7 +44,7 @@ import static com.example.together.StaticInit.countyResult;
 public class SearchDistrictActivity extends AppCompatActivity {
 
     //속성(변수) 선언
-    private static String TAG = "GroupPhotoActivity";
+    private static String TAG = "SearchDistrictActivity";
     private static String IP_ADDRESS = "13.125.221.240"; //JSON 데이터를 가져올 IP주소
     private static final int REQUEST_GALLERY_CODE = 200;
     private static final int READ_REQUEST_CODE = 300;
@@ -96,6 +97,7 @@ public class SearchDistrictActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     //읍면동 목록 초기화
@@ -108,6 +110,22 @@ public class SearchDistrictActivity extends AppCompatActivity {
 
         searchDistrictAdapter = new SearchDistrictAdapter();
         recyclerView.setAdapter(searchDistrictAdapter);
+
+
+        //리사이클러뷰 아이템 클릭 이벤트
+        searchDistrictAdapter.setOnItemClickListener(new SearchDistrictAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position, SearchDistrictData data) {
+                // 아이템 클릭 이벤트를 Activity에서 처리
+//                Log.e(TAG, data.getDistrictName());
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("districtNameOri", data.getDistrictName());
+                resultIntent.putExtra("districtCountyOri", data.getDistrictCounty());
+                resultIntent.putExtra("districtCityOri", data.getDistrictCity());
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
 
     //일정 정보 JSON 가져오기

@@ -523,8 +523,297 @@ public class StaticInit extends AppCompatActivity {
             case "4136":
                 county = "남양주시";
                 break;
+            case "4137":
+                county = "오산시";
+                break;
+            case "4139":
+                county = "시흥시";
+                break;
+            case "4141":
+                county = "군포시";
+                break;
+            case "4143":
+                county = "의왕시";
+                break;
+            case "4145":
+                county = "하남시";
+                break;
+            case "4146":
+                county = "용인시";
+                break;
+            case "4148":
+                county = "파주시";
+                break;
+            case "4150":
+                county = "이천시";
+                break;
+            case "4155":
+                county = "안성시";
+                break;
+            case "4157":
+                county = "김포시";
+                break;
+            case "4159":
+                county = "화성시";
+                break;
+            case "4161":
+                county = "광주시";
+                break;
+            case "4163":
+                county = "양주시";
+                break;
+            case "4165":
+                county = "포천시";
+                break;
+            case "4167":
+                county = "여주시";
+                break;
+            case "4180":
+                county = "연천군";
+                break;
+            case "4182":
+                county = "가평군";
+                break;
+            case "4183":
+                county = "양평군";
+                break;
 
-            //TODO 시간남으면 추가하기
+            //울산광역시
+            case "3111":
+                county = "중구";
+                break;
+            case "3114":
+                county = "남구";
+                break;
+            case "3117":
+                county = "동구";
+                break;
+            case "3120":
+                county = "북구";
+                break;
+            case "3171":
+                county = "울주군";
+                break;
+
+            //대전광역시
+            case "3011":
+                county = "동구";
+                break;
+            case "3014":
+                county = "중구";
+                break;
+            case "3017":
+                county = "서구";
+                break;
+            case "3020":
+                county = "유성구";
+                break;
+            case "3023":
+                county = "대덕구";
+                break;
+
+            //광주광역시
+            case "2911":
+                county = "동구";
+                break;
+            case "2914":
+                county = "서구";
+                break;
+            case "2915":
+                county = "남구";
+                break;
+            case "2917":
+                county = "북구";
+                break;
+            case "2920":
+                county = "광산구";
+                break;
+
+            //인천광역시
+            case "2811":
+                county = "중구";
+                break;
+            case "2814":
+                county = "동구";
+                break;
+            case "2817":
+                county = "미추홀구";
+                break;
+            case "2818":
+                county = "연수구";
+                break;
+            case "2820":
+                county = "남동구";
+                break;
+            case "2823":
+                county = "부평구";
+                break;
+            case "2824":
+                county = "계양구";
+                break;
+            case "2826":
+                county = "서구";
+                break;
+            case "2871":
+                county = "강화군";
+                break;
+            case "2872":
+                county = "옹진군";
+                break;
+
+            //대전광역시
+            case "2711":
+                county = "중구";
+                break;
+            case "2714":
+                county = "동구";
+                break;
+            case "2717":
+                county = "서구";
+                break;
+            case "2720":
+                county = "남구";
+                break;
+            case "2723":
+                county = "북구";
+                break;
+            case "2726":
+                county = "수성구";
+                break;
+            case "2729":
+                county = "달서구";
+                break;
+            case "2771":
+                county = "달성군";
+                break;
+
+            //부산광역시
+            case "2611":
+                county = "중구";
+                break;
+            case "2614":
+                county = "서구";
+                break;
+            case "2617":
+                county = "동구";
+                break;
+            case "2620":
+                county = "영도구";
+                break;
+            case "2623":
+                county = "부산진구";
+                break;
+            case "2626":
+                county = "동래구";
+                break;
+            case "2629":
+                county = "남구";
+                break;
+            case "2632":
+                county = "북구";
+                break;
+            case "2635":
+                county = "해운대구";
+                break;
+            case "2638":
+                county = "사하구";
+                break;
+            case "2641":
+                county = "금정구";
+                break;
+            case "2644":
+                county = "강서구";
+                break;
+            case "2647":
+                county = "연제구";
+                break;
+            case "2650":
+                county = "수영구";
+                break;
+            case "2653":
+                county = "사상구";
+                break;
+            case "2671":
+                county = "기장군";
+                break;
+
+            //서울특별시
+            case "1111":
+                county = "종로구";
+                break;
+            case "1114":
+                county = "중구";
+                break;
+            case "1117":
+                county = "용산구";
+                break;
+            case "1120":
+                county = "성동구";
+                break;
+            case "1121":
+                county = "광진구";
+                break;
+            case "1123":
+                county = "동대문구";
+                break;
+            case "1126":
+                county = "중랑구";
+                break;
+            case "1129":
+                county = "성북구";
+                break;
+            case "1130":
+                county = "강북구";
+                break;
+            case "1132":
+                county = "도봉구";
+                break;
+            case "1135":
+                county = "노원구";
+                break;
+            case "1138":
+                county = "은평구";
+                break;
+            case "1141":
+                county = "서대문구";
+                break;
+            case "1144":
+                county = "마포구";
+                break;
+            case "1147":
+                county = "양천구";
+                break;
+            case "1150":
+                county = "강서구";
+                break;
+            case "1153":
+                county = "구로구";
+                break;
+            case "1154":
+                county = "금천구";
+                break;
+            case "1156":
+                county = "영등포구";
+                break;
+            case "1159":
+                county = "동작구";
+                break;
+            case "1162":
+                county = "관악구";
+                break;
+            case "1165":
+                county = "서초구";
+                break;
+            case "1168":
+                county = "강남구";
+                break;
+            case "1171":
+                county = "송파구";
+                break;
+            case "1174":
+                county = "강동구";
+                break;
+
             default:
                 county = " ";
         }

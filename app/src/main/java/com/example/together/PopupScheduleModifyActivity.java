@@ -29,6 +29,9 @@ import java.util.Locale;
 
 import static com.example.together.StaticInit.IP_ADDRESS;
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
+import static com.example.together.StaticInit.doDiffOfDate;
+import static com.example.together.StaticInit.getDateFormat;
+import static com.example.together.StaticInit.getDateWeek;
 
 public class PopupScheduleModifyActivity extends AppCompatActivity {
 
@@ -95,7 +98,7 @@ public class PopupScheduleModifyActivity extends AppCompatActivity {
 
         // TODO 소스 정리하기
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.KOREA);
         DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.KOREA);
 
         Date date1 = null;
@@ -128,9 +131,9 @@ public class PopupScheduleModifyActivity extends AppCompatActivity {
 
         datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), new DatePicker.OnDateChangedListener() {
             @Override
-            public void onDateChanged(DatePicker picker, int yy, int mm, int dd) {
-                Log.e(TAG, String.valueOf(mYear));
-                scheduleSelectDate.setText(yy + "-" + (mm + 1) + "-" + dd);
+            public void onDateChanged(DatePicker picker, int yyyy, int mm, int dd) {
+//                Log.e(TAG, String.valueOf(mYear));
+                scheduleSelectDate.setText(yyyy + "." + (mm + 1) + "." + dd);
             }
         });
 
@@ -198,15 +201,23 @@ public class PopupScheduleModifyActivity extends AppCompatActivity {
                     }
                 } else {
                     scClock = "오전";
+                    if (scTime.equals("0")) {
+                        scTime = "12";
+                    }
                 }
 
 
                 //TODO 일정 값 제대로 넣고, DB에 값 저장하기!!!!
                 //리사이클러뷰 저장
                 SearchScheduleData data = new SearchScheduleData();
-                data.setScheduleWeek("화요일");
-                data.setScheduleCount("D-1");
-                data.setScheduleDate(scDate + " " + scheduleSelectTime.getText().toString());
+                String resetDateFormat = getDateFormat(scDate, "yyyy.MM.dd", "yyyy-MM-dd");
+                data.setScheduleWeek(getDateWeek(resetDateFormat, "yyyy-MM-dd") + "요일");
+                if (diffOfDate(resetDateFormat) < 0) {
+                    data.setScheduleCount("종료");
+                } else {
+                    data.setScheduleCount(doDiffOfDate(resetDateFormat));
+                }
+                data.setScheduleDate(scDate + " " + scheduleSelectTime.getText().toString() + ":00");
                 data.setScheduleTitle(scTitle);
                 data.setScheduleContent(scContent);
                 data.setScheduleLocation(scLocation);
@@ -331,6 +342,37 @@ public class PopupScheduleModifyActivity extends AppCompatActivity {
         }
     }
 
+    // 두날짜의 차이 구하기
+    public static long diffOfDate(String end) {
+        try {
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+
+            Date date = new Date();
+            String today = formatter.format(date);
+
+            Date beginDate = null;
+            try {
+                beginDate = formatter.parse(today);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date endDate = formatter.parse(end);
+
+            // 시간차이를 시간,분,초를 곱한 값으로 나누면 하루 단위가 나옴
+            long diff = endDate.getTime() - beginDate.getTime();
+
+            // 날짜 차이 결과
+            long diffDays = diff / (24 * 60 * 60 * 1000);
+
+            return diff;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
 
     @Override
     protected void onPause() {

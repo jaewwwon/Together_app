@@ -91,23 +91,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-//                Log.e(TAG, "userInfo_" + userInfoList);
+                // 이메일을 입력하지 않은 경우
+                if (inputEmail.length() == 0) {
+                    Toast.makeText(LoginActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-//                // 이메일을 입력하지 않은 경우
-//                if (inputEmail.length() == 0) {
-//                    Toast.makeText(LoginActivity.this, "이메일을 입력하세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                // 이메일 형식 확인
-//                if (!inputEmail.getText().toString().matches("^[A-z|0-9]([A-z|0-9]*)(@)([A-z]*)(\\.)([A-z]*)$")) {
-//                    Toast.makeText(LoginActivity.this, "이메일을 형식을 확인하세요.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                // 회원 정보 가져오기
-//                GetUserData userTask = new GetUserData();
-//                userTask.execute("http://" + IP_ADDRESS + "/db/user.php", inputEmail.getText().toString());
+                // 이메일 형식 확인
+                if (!inputEmail.getText().toString().matches("^[A-z|0-9]([A-z|0-9]*)(@)([A-z]*)(\\.)([A-z]*)$")) {
+                    Toast.makeText(LoginActivity.this, "이메일을 형식을 확인하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // 회원 정보 가져오기
+                GetUserData userTask = new GetUserData();
+                userTask.execute("http://" + IP_ADDRESS + "/db/user.php", inputEmail.getText().toString());
 
                 // 회원 정보에 입력한 아이디(이메일) 값이 있고, 그 아이디의 비밀번호 정보와 사용자 입력한 비밀번호가 일치할 때, 로그인이 된다.
 //                if (userInfoList.contains(inputEmail.getText().toString())) {
@@ -139,10 +137,10 @@ public class LoginActivity extends AppCompatActivity {
 //                    return;
 //                }
 //
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
             }
         });
 
@@ -175,6 +173,43 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 jsonString = result;
                 userInfoResult();
+
+                // 회원 정보에 입력한 아이디(이메일) 값이 있고, 그 아이디의 비밀번호 정보와 사용자 입력한 비밀번호가 일치할 때, 로그인이 된다.
+                if (userInfoList.contains(inputEmail.getText().toString())) {
+
+                    Log.e(TAG, inputEmail.getText().toString());
+
+                    // 사용자 정보 가져오기
+                    GetUserCheckData userCheckTask = new GetUserCheckData();
+                    String userCheckResult = null;
+                    try {
+                        userCheckResult = userCheckTask.execute("http://" + IP_ADDRESS + "/db/user_check.php", inputEmail.getText().toString(), inputPassword.getText().toString()).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (userCheckResult.length() > 0) {
+                        Toast.makeText(LoginActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // 로그인한 회원정보 아이디를 SharedPreferences에 저장한다.
+                    SharedPreferences preferences = getSharedPreferences("sFile", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("USER_LOGIN_ID", inputEmail.getText().toString());
+                    editor.apply();
+
+                } else {
+                    Toast.makeText(LoginActivity.this, "가입된 이메일이 아닙니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
 
 
             }
@@ -266,42 +301,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
 
-            // 회원 정보에 입력한 아이디(이메일) 값이 있고, 그 아이디의 비밀번호 정보와 사용자 입력한 비밀번호가 일치할 때, 로그인이 된다.
-            if (userInfoList.contains(inputEmail.getText().toString())) {
-
-                Log.e(TAG, inputEmail.getText().toString());
-
-                // 사용자 정보 가져오기
-                GetUserCheckData userCheckTask = new GetUserCheckData();
-                String userCheckResult = null;
-                try {
-                    userCheckResult = userCheckTask.execute("http://" + IP_ADDRESS + "/db/user_check.php", inputEmail.getText().toString(), inputPassword.getText().toString()).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if (userCheckResult.length() > 0) {
-                    Toast.makeText(LoginActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // 로그인한 회원정보 아이디를 SharedPreferences에 저장한다.
-                SharedPreferences preferences = getSharedPreferences("sFile", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("USER_LOGIN_ID", inputEmail.getText().toString());
-                editor.apply();
-
-            } else {
-                Toast.makeText(LoginActivity.this, "가입된 이메일이 아닙니다.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
 
         } catch (JSONException e) {
 

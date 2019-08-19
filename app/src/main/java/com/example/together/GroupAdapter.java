@@ -59,9 +59,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ItemViewHold
         return listData.size();
     }
 
-    void addItem(int position, GroupData data) {
+    void addItem(GroupData data) {
         // 외부에서 item을 추가시킬 함수입니다.
-        listData.add(0, data);
+        listData.add(data);
     }
 
     // RecyclerView의 핵심인 ViewHolder 입니다.

@@ -56,7 +56,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
     TextView chatTab; //채팅탭 버튼
     ImageView scheduleAddBtn; //일정 추가 버튼
 
-    private int PAGE_LOAD_NUM = 5; //페이지 로드 수
+    private int PAGE_LOAD_NUM = 10; //페이지 로드 수
     private int JSON_TOTAL_NUM;
 
 
@@ -188,23 +188,26 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
                 int itemTotalCount = recyclerView.getAdapter().getItemCount();
 
-                //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
-                if (lastVisibleItemPosition == itemTotalCount - 1) {
+                if(itemTotalCount != JSON_TOTAL_NUM){
+                    //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
+                    if (lastVisibleItemPosition == itemTotalCount - 1) {
 
-                    PAGE_LOAD_NUM += 5;
 
-                    Log.e(TAG, "itemTotalCount : " + itemTotalCount);
-                    Log.e(TAG, "JSON_TOTAL_NUM : " + JSON_TOTAL_NUM); //불러오는 JSON의 총 개수
+                        Log.e(TAG, "itemTotalCount : " + itemTotalCount);
+                        Log.e(TAG, "JSON_TOTAL_NUM : " + JSON_TOTAL_NUM); //불러오는 JSON의 총 개수
 
-                    int resultTest = JSON_TOTAL_NUM - itemTotalCount;
+                        int resultTest = JSON_TOTAL_NUM - itemTotalCount;
 
-                    if(resultTest >= 0){
-                        //일정 정보 JSON 파일 가져오기
-                        GetScheduleData scheduleTask = new GetScheduleData();
-                        scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
+                        if(resultTest >= 0){
+                            //일정 정보 JSON 파일 가져오기
+                            GetScheduleData scheduleTask = new GetScheduleData();
+                            scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
+                        }
+
                     }
-
                 }
+
+
             }
         });
 
@@ -246,7 +249,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
         @Override
         protected String doInBackground(String... params) {
-
+            PAGE_LOAD_NUM += 1;
             String serverURL = params[0];
             String groupIdx = params[1];
 //            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday() + "' ORDER BY sc_date DESC";
@@ -323,7 +326,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
 
-            Log.e(TAG, "zzzzzzzzzzzzzzzzzz" + jsonArray.length());
             JSON_TOTAL_NUM = jsonArray.length();
 
             for (int i = 0; i < jsonArray.length(); i++) {

@@ -61,6 +61,11 @@ public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdap
 //        listData.add(0, data);
 //    }
 
+    void firstAddItem(int position, SearchScheduleData data) {
+        // 외부에서 item을 추가시킬 함수입니다.
+        listData.add(0, data);
+    }
+
     void addItem(SearchScheduleData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);

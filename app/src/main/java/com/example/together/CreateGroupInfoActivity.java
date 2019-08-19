@@ -67,6 +67,10 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
     EditText groupIntro; //모임 소개
     Button prevButton; //이전으로 버튼
     Button submitButton; //완료 버튼
+    //intent로 전달받은 값
+    String districtCityKey; //시군
+    String districtCountyKey; //시군구
+    String districtNameKey; //읍면동
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +79,8 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
 
         SharedPreferences preferences = getSharedPreferences("sFile", 0);
         loginUserId = preferences.getString("USER_LOGIN_ID", null);
+
+        Log.e(TAG, "로그인 이메일 : " + loginUserId);
 
         //초기화
         groupThumbnail = findViewById(R.id.groupThumbnail);
@@ -105,9 +111,10 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
             public void onClick(View v) {
                 //읍면동 검색 화면으로 이동
                 Intent intent = new Intent(CreateGroupInfoActivity.this, SearchDistrictActivity.class);
-                startActivity(intent);
                 //읍면동 검색 결과 받기
                 startActivityForResult(intent, 3000);
+
+                //액티비티 이동 애니메이션 효과 제거
                 overridePendingTransition(0, 0);
             }
         });
@@ -124,6 +131,7 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (groupName.getText().toString().length() == 0) {
                     Toast.makeText(CreateGroupInfoActivity.this, "모임이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
@@ -138,11 +146,13 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
                 //DB 저장
                 InsertData task = new InsertData();
                 try {
-                    // 모임이름, 카테고리, 장소, 소개, 모임장, 모임 대표이미지 순서
+                    Log.e(TAG, districtCityKey);
+
+                    // index번호, 모임이름, 카테고리, 장소(시도, 시군구, 읍면동), 소개, 모임장, 모임 대표이미지, 모임 시작일 순서
                     PAGE_GROUP_INDEX = Integer.parseInt(task.execute("http://" + IP_ADDRESS + "/create_group_check.php",
                             groupName.getText().toString(),
                             groupCategoryKey,
-                            groupLocation.getText().toString(),
+                            districtCityKey, districtCountyKey, districtNameKey,
                             groupIntro.getText().toString(),
                             loginUserId,
                             groupThumbnailUrl
@@ -179,7 +189,7 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
 
             progressDialog.dismiss();
 //            mTextViewResult.setText(result);
-            Log.e(TAG, "POST response  - " + result);
+//            Log.e(TAG, "POST response  - " + result);
         }
 
 
@@ -189,15 +199,17 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
             String serverURL = (String) params[0]; //URL 주소값
             String groupName = (String) params[1]; //모임이름
             String groupCategory = (String) params[2];//카테고리
-            String groupLocation = (String) params[3];//장소
-            String groupIntro = (String) params[4];//소개
-            String groupHost = (String) params[5];//모임장
-            String imgUrl = (String) params[6];//모임 대표이미지
+            String districtCity = (String) params[3];//장소 시도
+            String districtCounty = (String) params[4];//장소 시군구
+            String districtName = (String) params[5];//장소 읍면동
+            String groupIntro = (String) params[6];//소개
+            String groupHost = (String) params[7];//모임장
+            String imgUrl = (String) params[8];//모임 대표이미지
 
-            Log.e(TAG, "_모임 대표이미지 최종 경로: " + imgUrl);
+//            Log.e(TAG, "_모임 대표이미지 최종 경로: " + imgUrl);
 
-            // 모임이름, 카테고리, 장소, 소개, 모임장, 모임 대표이미지 순서
-            String postParameters = "group_name=" + groupName + "&group_category=" + groupCategory + "&group_location=" + groupLocation + "&group_intro=" + groupIntro + "&group_host=" + groupHost + "&url=" + imgUrl;
+            // index번호, 모임이름, 카테고리, 장소(시도, 시군구, 읍면동), 소개, 모임장, 모임 대표이미지, 모임 시작일 순서
+            String postParameters = "group_name=" + groupName + "&group_category=" + groupCategory + "&districtCity=" + districtCity + "&districtCounty=" + districtCounty + "&districtName=" + districtName + "&group_intro=" + groupIntro + "&group_host=" + groupHost + "&url=" + imgUrl;
 
             try {
 
@@ -267,9 +279,13 @@ public class CreateGroupInfoActivity extends AppCompatActivity implements EasyPe
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 3000:
+
+                    //전달 받은 값 저장
+                    districtCityKey = data.getStringExtra("districtCityOri"); //시군
+                    districtCountyKey = data.getStringExtra("districtCountyOri"); //시군구
+                    districtNameKey = data.getStringExtra("districtNameOri"); //읍면동
                     // 읍면동 결과값 입력
-                    groupLocation.setText(data.getStringExtra("districtName"));
-                    Log.e(TAG, "읍면동 결과 값 : " + data.getStringExtra("districtName"));
+                    groupLocation.setText(districtCityKey + " " + districtCountyKey + " " + districtNameKey);
                     break;
             }
         }

@@ -124,7 +124,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         photoTab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GroupBoardViewActivity.this, GroupBoardViewActivity.class);
+                Intent intent = new Intent(GroupBoardViewActivity.this, GroupPhotoActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 overridePendingTransition(0, 0);

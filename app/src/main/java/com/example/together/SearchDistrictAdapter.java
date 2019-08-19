@@ -30,6 +30,18 @@ public class SearchDistrictAdapter extends RecyclerView.Adapter<SearchDistrictAd
     final private String TAG = "SearchDistrictAdapter";
     Context context;
     private ArrayList<SearchDistrictData> listData = new ArrayList<>(); //adapter에 들어갈 list
+    // 리스너 객체 참조를 저장하는 변수
+    private OnItemClickListener mListener = null;
+
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position, SearchDistrictData data);
+    }
+
+    // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
 
 
     @NonNull
@@ -97,14 +109,25 @@ public class SearchDistrictAdapter extends RecyclerView.Adapter<SearchDistrictAd
 //                    v.getContext().startActivity(intent);
 
                     //결과 값을 resultIntent 에 담아서 PopupScheduleAddActivity 로 전달하고 현재 Activity는 종료.
-                    Intent resultIntent = new Intent();
+//                    Intent resultIntent = new Intent();
 //                    resultIntent.putExtra("districtName", data.getDistrictName());
-//                    resultIntent.putExtra("districtCounty", data.getDistrictCounty());
-//                    resultIntent.putExtra("districtCity", data.getDistrictCity());
-                    ((Activity) context).setResult(Activity.RESULT_OK, resultIntent);
-                    ((Activity) context).finish();
+////                    resultIntent.putExtra("districtCounty", data.getDistrictCounty());
+////                    resultIntent.putExtra("districtCity", data.getDistrictCity());
+//                    ((Activity) context).setResult(Activity.RESULT_OK, resultIntent);
+//                    ((Activity) context).finish();
+
+                    /////////////////////////
+
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos, data);
+                        }
+                    }
+
 
                 }
+
             });
 
         }

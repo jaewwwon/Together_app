@@ -224,8 +224,8 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
                 fileUpload.enqueue(new Callback<UploadObject>() {
                     @Override
                     public void onResponse(Call<UploadObject> call, Response<UploadObject> response) {
-                        Toast.makeText(RegisterInfoActivity.this, "Response_onResponse " + response.raw().message(), Toast.LENGTH_LONG).show();
-                        Toast.makeText(RegisterInfoActivity.this, "Success_onResponse " + response.body().getSuccess(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(RegisterInfoActivity.this, "Response_onResponse " + response.raw().message(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(RegisterInfoActivity.this, "Success_onResponse " + response.body().getSuccess(), Toast.LENGTH_LONG).show();
 //                        Log.e(TAG, "저장된 이미지경로 : " + response.body().getSuccess());
                         profilePath = SERVER_PATH + response.body().getSuccess();
                         Log.e(TAG, "profilePath : " + profilePath);

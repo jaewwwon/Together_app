@@ -327,7 +327,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                     //TODO 이미지 태그 안보이는거랑 글씨 간격 해결할 것
                     groupIntro.setText(Html.fromHtml(item.getString(TAG_GROUP_INTRO)));
                     // 모임 장소 입력
-                    groupLocation.setText(item.getString(TAG_GROUP_CITY) + item.getString(TAG_GROUP_COUNTY) + item.getString(TAG_GROUP_DISTRICT));
+                    groupLocation.setText(item.getString(TAG_GROUP_DISTRICT));
 
                     if (userInfoList.contains(item.getString(TAG_GROUP_HOST))) {
                         groupHost.setText(userInfoList.get(userInfoList.indexOf(item.getString(TAG_GROUP_HOST)) + 1));

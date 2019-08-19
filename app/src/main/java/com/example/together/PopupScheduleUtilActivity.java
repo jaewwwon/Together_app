@@ -85,8 +85,7 @@ public class PopupScheduleUtilActivity extends AppCompatActivity {
         scheduleDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //DB 저장
+                //DB에서 해당 데이터 삭제하는 함수
                 DeleteData task = new DeleteData();
                 //일정 idex 보내기
                 task.execute("http://" + IP_ADDRESS + "/group/schedule_delete.php", String.valueOf(scheduleIdxKey));

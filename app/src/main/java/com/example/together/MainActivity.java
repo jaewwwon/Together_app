@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
             String serverURL = params[0];
 //            String postParameters = params[1];
-            String postParameters = "whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday("yyyy-MM-dd HH:mm:ss") + "' ORDER BY sc_date DESC";
+            String postParameters = "whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday("yyyy-MM-dd HH:mm:ss") + "' ORDER BY sc_date ASC LIMIT 0, 5";
 
             try {
 
@@ -284,10 +284,6 @@ public class MainActivity extends AppCompatActivity {
                 String groupIdx = item.getString(TAG_GROUP_IDX);
 
                 ScheduleData data = new ScheduleData();
-//                Log.e(TAG, String.valueOf(groupInfoList.indexOf("영화"))); // -> return 1
-//                Log.e(TAG, String.valueOf(groupInfoList.contains(groupIdx))); // -> true
-//                Log.e(TAG, String.valueOf(groupInfoList.indexOf(groupIdx)));
-
                 // TODO 주석 생각해보고 이해하기 쉽게 작성하기
                 // 모임 정보 리스트의 모임 index와 일정정보에 있는 모임 index가 포함되어 있을 경우
                 if (groupInfoList.contains(groupIdx)) {
@@ -311,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                 data.setGroupIdx(Integer.parseInt(groupIdx));
 
                 // listData.add(data);
-                scheduleAdapter.addItem(0, data);
+                scheduleAdapter.addItem(data);
             }
 
             scheduleAdapter.notifyDataSetChanged();
@@ -622,7 +618,7 @@ public class MainActivity extends AppCompatActivity {
 
             String serverURL = params[0];
 //            String postParameters = params[1];
-            String postParameters = "whereTxt=" + "ORDER BY group_idx ASC LIMIT 10";
+            String postParameters = "whereTxt=" + "ORDER BY group_idx DESC LIMIT 5";
 
             try {
 
@@ -743,7 +739,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // listData.add(data);
-                groupAdapter.addItem(0, data);
+                groupAdapter.addItem(data);
 
 
                 groupInfoList.add(String.valueOf(groupIdx));

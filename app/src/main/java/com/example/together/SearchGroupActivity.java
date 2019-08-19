@@ -54,7 +54,7 @@ public class SearchGroupActivity extends AppCompatActivity {
 
         GroupInit(); //모임 목록 초기화
         //일정 정보 JSON 파일 가져오기
-        GetGroupData groupTask = new GetGroupData();
+        GetSearchGroupData groupTask = new GetSearchGroupData();
         groupTask.execute("http://" + IP_ADDRESS + "/db/group_info.php", "");
     }
 
@@ -73,7 +73,7 @@ public class SearchGroupActivity extends AppCompatActivity {
     }
 
     //모임 정보 JSON 가져오기
-    private class GetGroupData extends AsyncTask<String, Void, String> {
+    private class GetSearchGroupData extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
         String errorString = null;
@@ -189,13 +189,7 @@ public class SearchGroupActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
 
-            int loopCount = jsonArray.length();
-
-            // 최대 10개까지만 출력함.
-            if (loopCount > 10) {
-                loopCount = 10;
-            }
-            for (int i = 0; i < loopCount; i++) {
+            for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject item = jsonArray.getJSONObject(i);
                 int groupIdx = Integer.parseInt(item.getString(TAG_GROUP_LIST_IDX));
@@ -219,7 +213,7 @@ public class SearchGroupActivity extends AppCompatActivity {
                     data.setGroupThumbnail("http://www.togetherme.tk/static/images/bg_default_small.gif");
                 }
 
-                data.setGroupLocation(groupCity + groupCounty + groupDistrict);
+                data.setGroupLocation(groupCity + " " + groupCounty);
 
                 if (groupMemberList.contains(groupIdx)) {
                     int memberCont = 0;
@@ -235,7 +229,7 @@ public class SearchGroupActivity extends AppCompatActivity {
 
 
                 // listData.add(data);
-                searchgroupAdapter.addItem(0, data);
+                searchgroupAdapter.addItem(data);
 
             }
 
