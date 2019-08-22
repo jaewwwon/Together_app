@@ -105,8 +105,19 @@
         <!-- 모임 상세(게시판 목록) 화면 -->
         <activity android:name=".GroupBoardActivity" />
 
-        <!-- 모임 상세(게시판 상세) 화면 -->
+        <!-- 모임 상세(게시글 상세) 화면 -->
         <activity android:name=".GroupBoardViewActivity" />
+
+        <!-- 모임 상세(게시글 작성) 화면 -->
+        <activity android:name=".GroupBoardWriteActivity" />
+
+        <!-- 모임 상세(게시글 수정) 화면 -->
+        <activity android:name=".GroupBoardModifyActivity" />
+
+        <!-- 게시글 수정/삭제 알림 팝업 -->
+        <activity
+            android:name=".PopupBoardUtilActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <!-- 모임 상세(사진첩) 화면 -->
         <activity android:name=".GroupPhotoActivity" />
@@ -118,6 +129,16 @@
 
         <!-- 모임 상세(채팅) 화면 -->
         <activity android:name=".GroupChatActivity" />
+
+        <!-- 모임관리 - 가입한 모임 -->
+        <activity android:name=".ManageJoinActivity" />
+
+        <!-- 모임관리 - 생성한 모임 -->
+        <activity android:name=".ManageCreateActivity" />
+
+
+        <!-- 설정 -->
+        <activity android:name=".SettingActivity" />
 
     </application>
 

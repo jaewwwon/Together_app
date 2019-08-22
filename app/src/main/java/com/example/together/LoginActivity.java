@@ -107,36 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 GetUserData userTask = new GetUserData();
                 userTask.execute("http://" + IP_ADDRESS + "/db/user.php", inputEmail.getText().toString());
 
-                // 회원 정보에 입력한 아이디(이메일) 값이 있고, 그 아이디의 비밀번호 정보와 사용자 입력한 비밀번호가 일치할 때, 로그인이 된다.
-//                if (userInfoList.contains(inputEmail.getText().toString())) {
-//
-//                    // 사용자 정보 가져오기
-//                    GetUserCheckData userCheckTask = new GetUserCheckData();
-//                    String userCheckResult = null;
-//                    try {
-//                        userCheckResult = userCheckTask.execute("http://" + IP_ADDRESS + "/db/user_check.php", inputEmail.getText().toString(), inputPassword.getText().toString()).get();
-//                    } catch (ExecutionException e) {
-//                        e.printStackTrace();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    if (userCheckResult.length() > 0) {
-//                        Toast.makeText(LoginActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//
-//                    // 로그인한 회원정보 아이디를 SharedPreferences에 저장한다.
-//                    SharedPreferences preferences = getSharedPreferences("sFile", MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.putString("USER_LOGIN_ID", inputEmail.getText().toString());
-//                    editor.apply();
-//
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "가입된 이메일이 아닙니다.", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
+
 //                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -199,6 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences preferences = getSharedPreferences("sFile", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("USER_LOGIN_ID", inputEmail.getText().toString());
+                    editor.putString("USER_LOGIN_NAME", userInfoList.get(userInfoList.indexOf(inputEmail.getText().toString()) - 1));
                     editor.apply();
 
                 } else {
@@ -282,6 +254,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void userInfoResult() {
         String TAG_JSON = "user";
+        String TAG_USER_NAME = "userName"; //회원 이름
         String TAG_USER_EMAIL = "userEmail"; //회원 이메일
         String TAG_USER_PASSWORD = "userPassword"; //회원 비밀번호
 
@@ -293,9 +266,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
+                String userName = item.getString(TAG_USER_NAME);
                 String userEmail = item.getString(TAG_USER_EMAIL);
                 String userPassword = item.getString(TAG_USER_PASSWORD);
 
+                userInfoList.add(userName);
                 userInfoList.add(userEmail);
                 userInfoList.add(userPassword);
 

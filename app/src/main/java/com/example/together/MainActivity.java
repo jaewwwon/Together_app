@@ -39,6 +39,7 @@ import static com.example.together.StaticInit.getDateFormat;
 import static com.example.together.StaticInit.getDateWeek;
 import static com.example.together.StaticInit.getToday;
 import static com.example.together.StaticInit.loginUserId;
+import static com.example.together.StaticInit.loginUserName;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -53,41 +54,25 @@ public class MainActivity extends AppCompatActivity {
     List<String> groupInfoList; // 모임 정보 파싱 데이터 리스트
     List<Integer> groupMemberList; // 모임 멤버 정보 파싱 데이터 리스트
     List<String> attendMemberList; // 일정 참석 멤버 정보 파싱 데이터 리스트
-
-
     private ScheduleAdapter scheduleAdapter; //일정 어댑터
     private GroupAdapter groupAdapter; //모임 어댑터
-    //    private TextView mTextMessage;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    TextView homeNav; //하단메뉴 - 홈
+    TextView manageNav; //하단메뉴 - 모임관리
+    TextView settingNav; //하단메뉴 - 설정
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-//                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-//                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-//                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e(TAG, "모임 index: " + PAGE_GROUP_INDEX);
+        //SharedPreferences에 저장된 로그인 정보를 전역변수에 저장한다.
         SharedPreferences preferences = getSharedPreferences("sFile", 0);
         loginUserId = preferences.getString("USER_LOGIN_ID", null);
+        loginUserName = preferences.getString("USER_LOGIN_NAME", null);
         if (loginUserId != null) {
             Log.e(TAG, "로그인 id: " + loginUserId);
+            Log.e(TAG, "로그인 name: " + loginUserName);
 
         }
 
@@ -95,9 +80,42 @@ public class MainActivity extends AppCompatActivity {
         groupCreateBtn = findViewById(R.id.groupCreateBtn);
         scheduleAllBtn = findViewById(R.id.scheduleAllBtn);
         groupAllBtn = findViewById(R.id.groupAllBtn);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        mTextMessage = findViewById(R.id.message);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        homeNav = findViewById(R.id.homeNav);
+        manageNav = findViewById(R.id.manageNav);
+        settingNav = findViewById(R.id.settingNav);
+
+        //하단메뉴 - 홈 버튼을 클릭했을 경우
+        homeNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        //하단메뉴 - 모임관리 버튼을 클릭했을 경우
+        manageNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ManageJoinActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+        //하단메뉴 - 설정 버튼을 클릭했을 경우
+        settingNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
 
         //모임 만들기 버튼을 클릭했을 경우
         groupCreateBtn.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
 
             String serverURL = params[0];
 //            String postParameters = params[1];
-            String postParameters = "whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday("yyyy-MM-dd HH:mm:ss") + "' ORDER BY sc_date ASC LIMIT 0, 5";
+            String joinTxt = "LEFT JOIN group_info ON group_schedule.group_idx = group_info.group_idx";
+            String postParameters = "whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday("yyyy-MM-dd HH:mm:ss") + "' ORDER BY sc_date ASC LIMIT 0, 5" + "&joinTxt=" + joinTxt;
 
             try {
 
@@ -268,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
         String TAG_SC_DATE = "scDate"; //일정 날짜
         String TAG_SC_LOCATION = "scLocation"; //일정 장소
         String TAG_GROUP_IDX = "groupIdx"; //모임 index
+        String TAG_GROUP_CATEGORY = "groupCategory"; //모임 카테고리
 
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -282,13 +302,11 @@ public class MainActivity extends AppCompatActivity {
                 String scDate = item.getString(TAG_SC_DATE);
                 String scLocation = item.getString(TAG_SC_LOCATION);
                 String groupIdx = item.getString(TAG_GROUP_IDX);
+                String groupCategory = item.getString(TAG_GROUP_CATEGORY);
 
                 ScheduleData data = new ScheduleData();
-                // TODO 주석 생각해보고 이해하기 쉽게 작성하기
-                // 모임 정보 리스트의 모임 index와 일정정보에 있는 모임 index가 포함되어 있을 경우
-                if (groupInfoList.contains(groupIdx)) {
-                    data.setGroupCategory(groupInfoList.get(groupInfoList.indexOf(groupIdx) + 1));
-                }
+
+                data.setGroupCategory(groupCategory);
                 // 날짜, 요일, 시간순
                 data.setScheduleDate(getDateFormat(scDate, "yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd") + "(" + getDateWeek(scDate, "yyyy-MM-dd HH:mm:ss") + ") " + getDateFormat(scDate, "yyyy-MM-dd HH:mm:ss", "HH:mm"));
                 data.setScheduleTitle(scTitle);
@@ -717,10 +735,10 @@ public class MainActivity extends AppCompatActivity {
                 data.setGroupTitle(groupName);
                 data.setGroupIntro(String.valueOf(Html.fromHtml((groupIntro).replaceAll("<img.+?>", ""))));
 
-                if (groupImg.length() > 0) {
-                    data.setGroupThumbnail(groupImg);
-                } else {
+                if (groupImg.length() == 0 || groupImg.equals("null")) {
                     data.setGroupThumbnail("http://www.togetherme.tk/static/images/bg_default_small.gif");
+                } else {
+                    data.setGroupThumbnail(groupImg);
                 }
 
                 data.setGroupLocation(groupCity + groupCounty + groupDistrict);
@@ -754,6 +772,12 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "groupResult : ", e);
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 
 

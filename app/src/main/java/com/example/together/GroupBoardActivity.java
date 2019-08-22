@@ -50,13 +50,14 @@ public class GroupBoardActivity extends AppCompatActivity {
     TextView boardCateSelect; //말머리 선택 버튼
     ImageView boardCateSelectImg; //말머리 선택 버튼 이미지
     TextView boardNoticeBtn; //공지사항 버튼
+    ImageView boardAddBtn; //게시글 추가 버튼
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_board);
 
-        Log.e(TAG, "모임 index: " + PAGE_GROUP_INDEX);
+//        Log.e(TAG, "모임 index: " + PAGE_GROUP_INDEX);
 
         //초기화
         pageGroupTit = findViewById(R.id.pageGroupTit);
@@ -69,6 +70,7 @@ public class GroupBoardActivity extends AppCompatActivity {
         boardCateSelect = findViewById(R.id.boardCateSelect);
         boardCateSelectImg = findViewById(R.id.boardCateSelectImg);
         boardNoticeBtn = findViewById(R.id.boardNoticeBtn);
+        boardAddBtn = findViewById(R.id.boardAddBtn);
 
 
         //페이지 모임 이름 설정
@@ -129,6 +131,16 @@ public class GroupBoardActivity extends AppCompatActivity {
             }
         });
 
+
+        //게시글 작성 버튼을 클릭했을 경우
+        boardAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupBoardActivity.this, GroupBoardWriteActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // 회원 정보 가져오기
         GetUserData userTask = new GetUserData();
         userTask.execute("http://" + IP_ADDRESS + "/db/user.php", "");
@@ -174,7 +186,7 @@ public class GroupBoardActivity extends AppCompatActivity {
 
             progressDialog.dismiss();
 //            Log.e(TAG, "response - " + result);
-            Log.e(TAG, "response jsonString - " + jsonString);
+//            Log.e(TAG, "response jsonString - " + jsonString);
 
             if (result == null) {
                 Log.e(TAG, errorString);
@@ -272,7 +284,7 @@ public class GroupBoardActivity extends AppCompatActivity {
 
                 // 각 List의 값들을 data 객체에 set 해줍니다.
                 GroupBoardData data = new GroupBoardData();
-                data.setBoardTitle("[" + boardCategory + "] " + boardTitle); //게시글 제목
+                data.setBoardTitle("[" + boardCategory + "] " + boardTitle); //게시글 카테고리 + 제목
 
                 // TODO 회원탈퇴시에 해당 게시글을 어떻게 처리할지 고민해봐야 함
                 if (userInfoList.contains(boardUser)) {

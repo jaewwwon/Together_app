@@ -20,20 +20,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="0dp" />
+        app:layout_constraintGuide_begin="16dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="0dp" />
+        app:layout_constraintGuide_end="16dp" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="모임관리"
+        android:text="설정"
         android:textColor="#333"
         android:textSize="22sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
@@ -41,62 +41,120 @@
         app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
     <TextView
-        android:id="@+id/groupJoinBtn"
+        android:id="@+id/profileBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="내가 가입한 모임"
-        android:textAlignment="center"
-        android:textColor="#f64060"
+        android:layout_marginTop="32dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="프로필 수정"
         android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/groupCreateBtn"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@id/guideline5"
+        android:textColor="#333"
+        android:background="@drawable/style_border_top"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/profileBtn"
+        app:layout_constraintEnd_toEndOf="@+id/profileBtn"
+        app:layout_constraintTop_toTopOf="@+id/profileBtn"
+        app:srcCompat="@drawable/img_arr_right" />
 
     <TextView
-        android:id="@+id/groupCreateBtn"
+        android:id="@+id/termsBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="내가 만든 모임"
-        android:textAlignment="center"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="이용약관"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/groupJoinBtn"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="#dddddd"
+        android:textColor="#333"
+        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/groupJoinBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/profileBtn" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="0dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="26dp"
-        android:background="#f64060"
-        app:layout_constraintEnd_toStartOf="@+id/groupCreateBtn"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/groupJoinBtn"
-        app:layout_constraintTop_toTopOf="@+id/groupJoinBtn" />
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/termsBtn"
+        app:layout_constraintEnd_toEndOf="@+id/termsBtn"
+        app:layout_constraintTop_toTopOf="@+id/termsBtn"
+        app:srcCompat="@drawable/img_arr_right" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/joinGroupList"
+    <TextView
+        android:id="@+id/privacyBtn"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        android:layout_height="wrap_content"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="개인정보처리방침"
+        android:textSize="14sp"
+        android:textColor="#333"
+        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/termsBtn" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/privacyBtn"
+        app:layout_constraintEnd_toEndOf="@+id/privacyBtn"
+        app:layout_constraintTop_toTopOf="@+id/privacyBtn"
+        app:srcCompat="@drawable/img_arr_right" />
+
+    <TextView
+        android:id="@+id/leaveBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="회원탈퇴"
+        android:textSize="14sp"
+        android:textColor="#333"
+        android:background="@drawable/style_border_top"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/privacyBtn" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/leaveBtn"
+        app:layout_constraintEnd_toEndOf="@+id/leaveBtn"
+        app:layout_constraintTop_toTopOf="@+id/leaveBtn"
+        app:srcCompat="@drawable/img_arr_right" />
+
+    <TextView
+        android:id="@+id/logoutBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:text="로그아웃"
+        android:textSize="14sp"
+        android:textColor="#333"
+        android:background="@drawable/style_border_top"
+        app:layout_constraintEnd_toStartOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline5"
+        app:layout_constraintTop_toBottomOf="@+id/leaveBtn" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/logoutBtn"
+        app:layout_constraintEnd_toEndOf="@+id/logoutBtn"
+        app:layout_constraintTop_toTopOf="@+id/logoutBtn"
+        app:srcCompat="@drawable/img_arr_right" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/nav_view"
@@ -132,8 +190,8 @@
             android:drawableTop="@drawable/ic_dashboard_black_24dp"
             android:gravity="center"
             android:textSize="12sp"
-            android:textColor="#009688"
-            android:drawableTint="#009688"
+            android:textColor="#555"
+            android:drawableTint="#666"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/settingNav"
             app:layout_constraintHorizontal_bias="0.5"
@@ -149,12 +207,14 @@
             android:drawableTop="@drawable/ic_settings_black_24dp"
             android:gravity="center"
             android:textSize="12sp"
-            android:textColor="#555"
-            android:drawableTint="#666"
+            android:textColor="#009688"
+            android:drawableTint="#009688"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/manageNav"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

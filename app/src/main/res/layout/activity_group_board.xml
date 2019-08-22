@@ -191,5 +191,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardNoticeBtn" />
 
+    <ImageButton
+        android:id="@+id/boardAddBtn"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/img_btn_add" />
+
 
 </android.support.constraint.ConstraintLayout>

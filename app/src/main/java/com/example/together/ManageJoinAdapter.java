@@ -6,14 +6,21 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,17 +28,13 @@ import java.util.List;
 
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemViewHolder> {
+public class ManageJoinAdapter extends RecyclerView.Adapter<ManageJoinAdapter.ItemViewHolder> {
 
     //속성(변수) 초기화
     Context context;
-    private ArrayList<ScheduleData> listData = new ArrayList<>(); //adapter에 들어갈 list
-    private List<String> userBookmarkList; // 회원 북마크정보 파싱 결과 담는 배열
+    private static String TAG = "ManageJoinAdapter";
+    private ArrayList<ManageJoinData> listData = new ArrayList<>(); //adapter에 들어갈 list
 
-    //현재 날짜 가져오기 변수들
-//    long mNow;
-//    Date mDate;
-//    SimpleDateFormat mFormat = new SimpleDateFormat("yyyy.MM.dd");
 
     @NonNull
     @Override
@@ -39,7 +42,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemVi
 
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate 시킵니다.
         // return 인자는 ViewHolder 입니다.
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_manage_group, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -48,7 +51,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemVi
 
         // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
         holder.onBind(listData.get(position));
-//        holder.placeRating.setRating(4.5f);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemVi
         return listData.size();
     }
 
-    void addItem(ScheduleData data) {
+    void addItem(ManageJoinData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
@@ -67,39 +69,42 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ItemVi
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView groupCategory; //모임 카테고리
-        private TextView scheduleDate; //일정 날짜
-        private TextView scheduleTitle; //일정 제목
-        private TextView scheduleLocation; //일정 장소
-        private TextView scheduleMember; //일정참여 멤버 수
+        private TextView groupTitle; //모임 이름
+        private TextView groupIntro; //모임 소개
+        private TextView groupLocation; //모임 장소
+        private TextView groupMember; //모임회원 수
         private TextView groupIdx; //모임 index
-
+        private TextView groupDate; //모임 가입일, 모임 시작일
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
             groupCategory = itemView.findViewById(R.id.groupCategory);
-            scheduleDate = itemView.findViewById(R.id.scheduleDate);
-            scheduleTitle = itemView.findViewById(R.id.scheduleTitle);
-            scheduleLocation = itemView.findViewById(R.id.scheduleLocation);
-            scheduleMember = itemView.findViewById(R.id.scheduleMember);
+            groupTitle = itemView.findViewById(R.id.groupTitle);
+            groupIntro = itemView.findViewById(R.id.groupIntro);
+            groupLocation = itemView.findViewById(R.id.groupLocation);
+            groupMember = itemView.findViewById(R.id.groupMember);
             groupIdx = itemView.findViewById(R.id.groupIdx);
+            groupDate = itemView.findViewById(R.id.groupDate);
         }
 
-        void onBind(final ScheduleData data) {
+        void onBind(final ManageJoinData data) {
             groupCategory.setText(data.getGroupCategory());
-            scheduleDate.setText(data.getScheduleDate());
-            scheduleTitle.setText(data.getScheduleTitle());
-            scheduleLocation.setText(data.getScheduleLocation());
-            scheduleMember.setText(String.valueOf(data.getScheduleMember()));
+            groupTitle.setText(data.getGroupTitle());
+            groupIntro.setText(Html.fromHtml((data.getGroupIntro())));
+            groupLocation.setText(data.getGroupLocation());
+            groupMember.setText(String.valueOf(data.getGroupMember()));
             groupIdx.setText(String.valueOf(data.getGroupIdx()));
+            groupDate.setText(data.getGroupDate());
+
 
             // 해당 리사이클러뷰 아이템을 클릭했을 경우
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), GroupScheduleActivity.class);
+                    Intent intent = new Intent(v.getContext(), GroupInfoActivity.class);
+//                    intent.putExtra("groupIdx", data.getGroupIdx()); // 모임 index 전달
                     PAGE_GROUP_INDEX = data.getGroupIdx();
-//                    intent.putExtra("placeName", data.getScheduleTitle());
                     v.getContext().startActivity(intent);
                 }
             });

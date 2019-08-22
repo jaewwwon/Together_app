@@ -175,41 +175,41 @@ public class GroupScheduleActivity extends AppCompatActivity {
         recyclerView.setAdapter(groupScheduleAdapter);
 
         // Pagination
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                int itemTotalCount = recyclerView.getAdapter().getItemCount();
-
-                if(itemTotalCount != JSON_TOTAL_NUM){
-                    //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
-                    if (lastVisibleItemPosition == itemTotalCount - 1) {
-
-
-                        Log.e(TAG, "itemTotalCount : " + itemTotalCount);
-                        Log.e(TAG, "JSON_TOTAL_NUM : " + JSON_TOTAL_NUM); //불러오는 JSON의 총 개수
-
-                        int resultTest = JSON_TOTAL_NUM - itemTotalCount;
-
-                        if(resultTest >= 0){
-                            //일정 정보 JSON 파일 가져오기
-                            GetScheduleData scheduleTask = new GetScheduleData();
-                            scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
-                        }
-
-                    }
-                }
-
-
-            }
-        });
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//
+//                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+//                int itemTotalCount = recyclerView.getAdapter().getItemCount();
+//
+//                if(itemTotalCount != JSON_TOTAL_NUM){
+//                    //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
+//                    if (lastVisibleItemPosition == itemTotalCount - 1) {
+//
+//
+//                        Log.e(TAG, "itemTotalCount : " + itemTotalCount);
+//                        Log.e(TAG, "JSON_TOTAL_NUM : " + JSON_TOTAL_NUM); //불러오는 JSON의 총 개수
+//
+//                        int resultTest = JSON_TOTAL_NUM - itemTotalCount;
+//
+//                        if(resultTest >= 0){
+//                            //일정 정보 JSON 파일 가져오기
+//                            GetScheduleData scheduleTask = new GetScheduleData();
+//                            scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
+//                        }
+//
+//                    }
+//                }
+//
+//
+//            }
+//        });
 
     }
 

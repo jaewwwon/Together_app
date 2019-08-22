@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,13 +44,16 @@ public class GroupBoardViewActivity extends AppCompatActivity {
     private String jsonString; // json 데이터 파일
     static GroupBoardViewAdapter groupBoardViewAdapter; //게시판 어댑터
     private ArrayList<GroupBoardViewData> listData;
+    //전달받은 intent 값 저장
+    int itemPosition; //아이템 위치값
+    int itemSize; //아이템 사이즈
     int boardIdx; //현재 게시글 index 값
     List<String> userInfoList = new ArrayList<String>(); // 회원정보 리스트
     List<String> boardInfoList = new ArrayList<String>(); // 게시글 정보 리스트
     TextView pageGroupTit; //페이지 상단 모임 이름
     TextView infoTab; //정보탭 버튼
     TextView scheduleTab; //일정탭 버튼
-    TextView boardTab; //게시판탭 버튼a
+    TextView boardTab; //게시판탭 버튼
     TextView photoTab; //사진첩탭 버튼
     TextView chatTab; //채팅탭 버튼
     TextView boardTitle; //게시글 제목
@@ -59,6 +63,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
     TextView boardView; //게시글 조회수
     TextView boardContent; //게시글 내용
     TextView commentCount; //댓글 총 개수
+    ImageButton boardUtilBtn; //게시글 수정/삭제 버튼
 
 
     @Override
@@ -82,10 +87,17 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         boardView = findViewById(R.id.boardView);
         boardContent = findViewById(R.id.boardContent);
         commentCount = findViewById(R.id.commentCount);
-
+        boardUtilBtn = findViewById(R.id.boardUtilBtn);
 
         //페이지 모임 이름 설정
         pageGroupTit.setText(PAGE_GROUP_NAME);
+
+        // 인텐트값 넘겨받기
+        Intent intent = getIntent();
+        itemPosition = intent.getIntExtra("itemPositionOri", 0); //아이템 위치값
+        itemSize = intent.getIntExtra("itemSizeOri", 0); //아이템 사이즈
+        boardIdx = intent.getIntExtra("boardIdxOri", 0); //게시글 index
+        Log.e(TAG, "게시글 index 정보: " + boardIdx);
 
         //정보탭 버튼을 클릭했을 경우
         infoTab.setOnClickListener(new View.OnClickListener() {
@@ -142,10 +154,19 @@ public class GroupBoardViewActivity extends AppCompatActivity {
             }
         });
 
-        // 인텐트값 넘겨받기
-        Intent intent = getIntent();
-        boardIdx = intent.getIntExtra("boardIdx", 0); //게시글 index
-        Log.e(TAG, "게시글 index 정보: " + boardIdx);
+        //게시글 수정/삭제 버튼을 클릭했을 경우
+        boardUtilBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupBoardViewActivity.this, PopupBoardUtilActivity.class);
+                intent.putExtra("itemPositionOri", itemPosition); //해당 게시글 아이템 위치값
+                intent.putExtra("itemSizeOri", itemSize); //해당 게시글 아이템 사이즈
+                intent.putExtra("boardIdxOri", boardIdx); //해당 게시글 index
+//                startActivity(intent);
+                startActivityForResult(intent, 5000);
+                overridePendingTransition(0, 0);
+            }
+        });
 
         // 회원 정보 가져오기
         GetUserData userTask = new GetUserData();
@@ -161,6 +182,12 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         GetBoardCommentData boardCommentTask = new GetBoardCommentData();
         boardCommentTask.execute("http://" + IP_ADDRESS + "/db/board_comment.php", "");
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume");
 
 
 
@@ -489,18 +516,18 @@ public class GroupBoardViewActivity extends AppCompatActivity {
                 groupBoardResult();
 
                 //게시글 정보 입력
-                //boardInfoList에 게시글 제목, 내용, 작성자 이메일, 작성일, 조회수 순으로 저장
-                Log.e(TAG, "게시글 정보: " + boardInfoList);
-                Log.e(TAG, "사용자 정보: " + userInfoList);
-                boardTitle.setText(boardInfoList.get(0)); //게시글 제목
-                boardContent.setText(Html.fromHtml(boardInfoList.get(1))); //게시글 내용
+                //boardInfoList에 게시글 카테고리, 제목, 내용, 작성자이메일, 작성일, 조회수 순으로 저장
+//                Log.e(TAG, "게시글 정보: " + boardInfoList);
+//                Log.e(TAG, "사용자 정보: " + userInfoList);
+                boardTitle.setText("[" + boardInfoList.get(0) + "] " + boardInfoList.get(1)); //게시글 제목
+                boardContent.setText(Html.fromHtml(boardInfoList.get(2))); //게시글 내용
 
-                if (userInfoList.contains(boardInfoList.get(2))) { //게시글 작성자
+                if (userInfoList.contains(boardInfoList.get(3))) { //게시글 작성자
                     Glide.with(GroupBoardViewActivity.this)
-                            .load(userInfoList.get(userInfoList.indexOf(boardInfoList.get(2)) + 2))
+                            .load(userInfoList.get(userInfoList.indexOf(boardInfoList.get(3)) + 2))
                             .override(500, 500)
                             .into(userProfile);
-                    userName.setText(userInfoList.get(userInfoList.indexOf(boardInfoList.get(2)) + 1)); //댓글 작성자 이름
+                    userName.setText(userInfoList.get(userInfoList.indexOf(boardInfoList.get(3)) + 1)); //댓글 작성자 이름
                 } else {
                     Glide.with(GroupBoardViewActivity.this)
                             .load("http://www.togetherme.tk/static/images/icon_profile.png")
@@ -511,13 +538,13 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
                 //만약 작성일이 오늘날짜라면 시간만 보이도록 출력하고,
                 //작성일이 오늘날짜가 아니라면 년,월,일 형식으로 출력한다.
-                if (getToday("yyyy-MM-dd").equals(getDateFormat(boardInfoList.get(3), "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"))) {
-                    boardDate.setText(getDateFormat(boardInfoList.get(3), "yyyy-MM-dd HH:mm:ss", "HH:mm")); //게시글 작성시간
+                if (getToday("yyyy-MM-dd").equals(getDateFormat(boardInfoList.get(4), "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"))) {
+                    boardDate.setText(getDateFormat(boardInfoList.get(4), "yyyy-MM-dd HH:mm:ss", "HH:mm")); //게시글 작성시간
                 } else {
-                    boardDate.setText(getDateFormat(boardInfoList.get(3), "yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd")); //게시글 작성날짜
+                    boardDate.setText(getDateFormat(boardInfoList.get(4), "yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd")); //게시글 작성날짜
                 }
 
-                boardView.setText(boardInfoList.get(4)); //조회수
+                boardView.setText(boardInfoList.get(5)); //조회수
             }
         }
 
@@ -586,6 +613,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
     private void groupBoardResult() {
         String TAG_JSON = "groupBoard";
+        String TAG_BOARD_CATEGORY = "boardCategory"; //게시글 카테고리
         String TAG_BOARD_TITLE = "boardTitle"; //게시글 제목
         String TAG_BOARD_CONTENT = "boardContent"; //게시글 내용
         String TAG_BOARD_USER = "boardUser"; //게시글 작성자
@@ -600,13 +628,15 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
+                String boardCategory = item.getString(TAG_BOARD_CATEGORY);
                 String boardTitle = item.getString(TAG_BOARD_TITLE);
                 String boardContent = item.getString(TAG_BOARD_CONTENT);
                 String boardUser = item.getString(TAG_BOARD_USER);
                 String boardDate = item.getString(TAG_BOARD_DATE);
                 String boardView = item.getString(TAG_BOARD_VIEW);
 
-                //게시글 제목, 내용, 작성자이메일, 작성일, 조회수 순으로 저장
+                //게시글 카테고리, 제목, 내용, 작성자이메일, 작성일, 조회수 순으로 저장
+                boardInfoList.add(boardCategory);
                 boardInfoList.add(boardTitle);
                 boardInfoList.add(boardContent);
                 boardInfoList.add(boardUser);
@@ -625,4 +655,16 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         super.onPause();
         overridePendingTransition(0, 0);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 5000:
+                    finish();
+                    break;
+            }
+        }
+    }
+
 }

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingBottom="16dp">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_end="16dp" />
+
+
+            <TextView
+                android:id="@+id/pageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="게시글 작성"
+                android:textColor="#333"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="말머리"
+                android:textColor="#333333"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/pageTitle" />
+
+            <Spinner
+                android:id="@+id/boardCategory"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:spinnerMode="dropdown"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginRight="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/boardCategory"
+                app:layout_constraintEnd_toEndOf="@+id/boardCategory"
+                app:layout_constraintTop_toTopOf="@+id/boardCategory"
+                app:layout_constraintVertical_bias="0.5"
+                app:srcCompat="@drawable/img_arr_down" />
+
+            <!--<EditText-->
+                <!--android:id="@+id/boardCategory"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="36dp"-->
+                <!--android:layout_marginTop="4dp"-->
+                <!--android:background="@drawable/style_input_border"-->
+                <!--android:ems="10"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:padding="10dp"-->
+                <!--android:textSize="14sp"-->
+                <!--app:layout_constraintEnd_toStartOf="@+id/guideline3"-->
+                <!--app:layout_constraintStart_toStartOf="@+id/guideline2"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/textView21" />-->
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="제목"
+                android:textColor="#333333"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/boardCategory" />
+
+            <EditText
+                android:id="@+id/boardTitle"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/textView22" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="내용"
+                android:textColor="#333333"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/boardTitle" />
+
+            <EditText
+                android:id="@+id/boardContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="10"
+                android:minLines="10"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/textView23" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/style_button_normal"
+                android:text="취소"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/submitButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/guideline2"
+                app:layout_constraintTop_toBottomOf="@+id/boardContent" />
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/style_button_submit"
+                android:text="작성"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/cancelButton"
+                app:layout_constraintTop_toBottomOf="@+id/boardContent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

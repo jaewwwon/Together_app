@@ -86,8 +86,9 @@ public class GroupBoardAdapter extends RecyclerView.Adapter<GroupBoardAdapter.It
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), GroupBoardViewActivity.class);
-                    //해당 게시글의 index 값을 전달한다.
-                    intent.putExtra("boardIdx", data.getBoardIdx());
+                    intent.putExtra("itemPositionOri", getAdapterPosition()); //아이템 위치값
+                    intent.putExtra("itemSizeOri", listData.size()); //아이템 크기
+                    intent.putExtra("boardIdxOri", data.getBoardIdx()); //해당 게시글의 index
                     v.getContext().startActivity(intent);
                 }
             });

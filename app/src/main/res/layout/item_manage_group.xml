@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/item_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/groupCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/style_label"
+                android:paddingLeft="10dp"
+                android:paddingTop="2dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="2dp"
+                android:text="카테고리"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="8dp"
+                android:tint="#666"
+                app:layout_constraintStart_toStartOf="@+id/groupIntro"
+                app:layout_constraintTop_toBottomOf="@+id/groupIntro"
+                app:srcCompat="@drawable/ic_location_on_black_24dp" />
+
+            <TextView
+                android:id="@+id/groupLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모임장소"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="20dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:tint="#666"
+                app:layout_constraintBottom_toBottomOf="@+id/groupLocation"
+                app:layout_constraintStart_toEndOf="@+id/groupLocation"
+                app:layout_constraintTop_toTopOf="@+id/groupLocation"
+                app:srcCompat="@drawable/ic_iconmonstr_user" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="모임멤버"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+            <TextView
+                android:id="@+id/groupMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:text="5"
+                android:textColor="#f64060"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/textView11"
+                app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="명"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/groupMember"
+                app:layout_constraintTop_toTopOf="@+id/groupMember" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="20dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:tint="#666"
+                app:layout_constraintBottom_toBottomOf="@+id/textView18"
+                app:layout_constraintStart_toEndOf="@+id/textView18"
+                app:layout_constraintTop_toTopOf="@+id/textView18"
+                app:srcCompat="@drawable/ic_access_time_black_24dp" />
+
+            <TextView
+                android:id="@+id/groupDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2019.00.00"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+            <TextView
+                android:id="@+id/groupTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="모임 제목"
+                android:textColor="#333333"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toStartOf="@+id/imageView14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/groupCategory" />
+
+            <TextView
+                android:id="@+id/groupIntro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="모임소개란 "
+                android:textSize="13sp"
+                app:layout_constraintEnd_toStartOf="@+id/imageView14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/groupTitle" />
+
+
+            <!--모임 index 정보-->
+            <TextView
+                android:id="@+id/groupIdx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hidden value"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView14"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/img_arr_right" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

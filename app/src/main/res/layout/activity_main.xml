@@ -16,8 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -120,19 +119,27 @@
                 android:id="@+id/scheduleAllBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/img_arr_right"
-                android:drawablePadding="4dp"
+                android:layout_marginRight="4dp"
                 android:text="전체보기"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintEnd_toStartOf="@+id/imageView13"
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <ImageView
+                android:id="@+id/imageView13"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/scheduleAllBtn"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/scheduleAllBtn"
+                app:srcCompat="@drawable/img_arr_right" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/scheduleList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="@+id/guideline7"
@@ -162,37 +169,94 @@
                 android:id="@+id/groupAllBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/img_arr_right"
-                android:drawablePadding="4dp"
+                android:layout_marginRight="4dp"
                 android:text="전체보기"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintEnd_toStartOf="@+id/imageView12"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                app:layout_constraintBottom_toBottomOf="@+id/groupAllBtn"
+                app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintTop_toTopOf="@+id/groupAllBtn"
+                app:srcCompat="@drawable/img_arr_right" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/groupList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guideline7"
                 app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
 
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
 
-    <android.support.design.widget.BottomNavigationView
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="?android:attr/windowBackground"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/style_border_top"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/homeNav"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="홈"
+            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#009688"
+            android:drawableTint="#009688"
+            app:layout_constraintEnd_toStartOf="@+id/manageNav"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/manageNav"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="모임관리"
+            android:drawableTop="@drawable/ic_dashboard_black_24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#555"
+            android:drawableTint="#666"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/settingNav"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeNav"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/settingNav"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:drawableTop="@drawable/ic_settings_black_24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#555"
+            android:drawableTint="#666"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/manageNav"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
