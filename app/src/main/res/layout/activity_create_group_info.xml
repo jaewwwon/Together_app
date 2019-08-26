@@ -116,9 +116,10 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/style_input_border"
                 android:padding="1dp"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/textView18"
                 app:srcCompat="@drawable/img_bg_default_small" />

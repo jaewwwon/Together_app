@@ -55,9 +55,9 @@ public class GroupScheduleActivity extends AppCompatActivity {
     TextView photoTab; //사진첩탭 버튼
     TextView chatTab; //채팅탭 버튼
     ImageView scheduleAddBtn; //일정 추가 버튼
+    TextView noneContent; //등록된 일정이 없을경우 표시되는 문구
 
-    private int PAGE_LOAD_NUM = 10; //페이지 로드 수
-    private int JSON_TOTAL_NUM;
+    private int PAGE_LOAD_NUM = 0; //페이지 로드 수
 
 
     @Override
@@ -75,6 +75,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         photoTab = findViewById(R.id.photoTab);
         chatTab = findViewById(R.id.chatTab);
         scheduleAddBtn = findViewById(R.id.scheduleAddBtn);
+        noneContent = findViewById(R.id.noneContent);
 
         //TODO 일정 추가 버튼 조건에 따라 보이기
 //        if(모임장일 경우에만 버튼 표시){
@@ -175,41 +176,30 @@ public class GroupScheduleActivity extends AppCompatActivity {
         recyclerView.setAdapter(groupScheduleAdapter);
 
         // Pagination
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-//                int itemTotalCount = recyclerView.getAdapter().getItemCount();
-//
-//                if(itemTotalCount != JSON_TOTAL_NUM){
-//                    //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
-//                    if (lastVisibleItemPosition == itemTotalCount - 1) {
-//
-//
-//                        Log.e(TAG, "itemTotalCount : " + itemTotalCount);
-//                        Log.e(TAG, "JSON_TOTAL_NUM : " + JSON_TOTAL_NUM); //불러오는 JSON의 총 개수
-//
-//                        int resultTest = JSON_TOTAL_NUM - itemTotalCount;
-//
-//                        if(resultTest >= 0){
-//                            //일정 정보 JSON 파일 가져오기
-//                            GetScheduleData scheduleTask = new GetScheduleData();
-//                            scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
-//                        }
-//
-//                    }
-//                }
-//
-//
-//            }
-//        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount();
+
+                //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
+                if (lastVisibleItemPosition == itemTotalCount - 1) {
+
+                    //일정 정보 JSON 파일 가져오기
+                    GetScheduleData scheduleTask = new GetScheduleData();
+                    scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
+
+                }
+
+            }
+        });
 
     }
 
@@ -235,7 +225,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-//            Log.e(TAG, "response - " + result);
+            Log.e(TAG, "response - " + result);
 
             if (result == null) {
                 Log.e(TAG, errorString);
@@ -249,11 +239,13 @@ public class GroupScheduleActivity extends AppCompatActivity {
         // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
         @Override
         protected String doInBackground(String... params) {
-            PAGE_LOAD_NUM += 1;
+            PAGE_LOAD_NUM += 10;
             String serverURL = params[0];
             String groupIdx = params[1];
 //            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday() + "' ORDER BY sc_date DESC";
-            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY sc_date DESC LIMIT 0, " + PAGE_LOAD_NUM;
+//            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY sc_date DESC LIMIT 0, " + PAGE_LOAD_NUM;
+            Log.e(TAG, "요청 아이템 수: " + PAGE_LOAD_NUM);
+            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY sc_date DESC" + "&limitTxt=" + PAGE_LOAD_NUM;
 
             try {
 
@@ -326,8 +318,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
 
-            JSON_TOTAL_NUM = jsonArray.length();
-
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject item = jsonArray.getJSONObject(i);
@@ -376,6 +366,12 @@ public class GroupScheduleActivity extends AppCompatActivity {
             }
 
             groupScheduleAdapter.notifyDataSetChanged();
+
+            if(groupScheduleAdapter.listData.size() == 0){
+                noneContent.setVisibility(View.VISIBLE);
+            } else {
+                noneContent.setVisibility(View.GONE);
+            }
 
 
         } catch (JSONException e) {

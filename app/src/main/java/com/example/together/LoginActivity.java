@@ -41,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton; // 로그인 버튼
     String userEmailKey; //회원가입 시 전달받은 이메일 값
     List<String> userInfoList = new ArrayList<String>(); // 회원정보 리스트
+    String autoLoginId; //자동로그인 아이디값
+    String autoLoginPassword; //자동로그인 비밀번호값
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,28 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userEmailKey = intent.getStringExtra("userEmailOri"); // 가입한 Email 값
 
+        //가입한 이메일주소를 이메일란에 저장한다.
         inputEmail.setText(userEmailKey);
+
+
+        //자동로그인 여부
+        //SharedPreferences에 저장된 로그인 정보를 전역변수에 저장한다.
+        SharedPreferences preferences = getSharedPreferences("sFile", 0);
+        autoLoginId = preferences.getString("USER_LOGIN_ID", null);
+        autoLoginPassword = preferences.getString("USER_LOGIN_NAME", null);
+
+        inputEmail.setText(autoLoginId);
+        inputPassword.setText(autoLoginPassword);
+
+        if(autoLoginId !=null && autoLoginPassword != null) {
+            if(autoLoginId.equals(inputEmail.getText().toString()) && autoLoginPassword.equals(inputPassword.getText().toString())) {
+                Intent autoIntent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(autoIntent);
+                finish();
+            }
+        }
 
 
         //회원가입 문구 넣기
@@ -171,6 +194,10 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("USER_LOGIN_ID", inputEmail.getText().toString());
                     editor.putString("USER_LOGIN_NAME", userInfoList.get(userInfoList.indexOf(inputEmail.getText().toString()) - 1));
+
+                    //자동 로그인 정보 저장
+                    editor.putString("AOTO_LOGIN_ID", inputEmail.getText().toString()); //아이디값 저장
+                    editor.putString("AOTO_LOGIN_PASSWORD", inputPassword.getText().toString()); //비밀번호값 저장
                     editor.apply();
 
                 } else {

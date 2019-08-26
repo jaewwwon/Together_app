@@ -61,6 +61,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
     private static final int READ_REQUEST_CODE = 300;
     private static final String SERVER_PATH = "http://www.togetherme.tk/";
     private String jsonString; // json 데이터 파일
+    List<String> photoList = new ArrayList<>(); //사진 정보 파싱 데이터 리스트
     static GroupPhotoAdapter groupPhotoAdapter; //모임 사진첩 어댑터
     private Uri uri;
     TextView pageGroupTit; //페이지 상단 모임 이름
@@ -70,6 +71,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
     TextView photoTab; //사진첩탭 버튼
     TextView chatTab; //채팅탭 버튼
     ImageButton photoAddBtn; //일정 추가 버튼
+    TextView noneContent; //등록된 사진이 없을경우 표시되는 문구
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
         photoTab = findViewById(R.id.photoTab);
         chatTab = findViewById(R.id.chatTab);
         photoAddBtn = findViewById(R.id.photoAddBtn);
+        noneContent = findViewById(R.id.noneContent);
+
 
         //페이지 모임 이름 설정
         pageGroupTit.setText(PAGE_GROUP_NAME);
@@ -167,6 +171,12 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
 //        });
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         PhotoInit(); //사진첩 목록 초기화
         //모임 사진 정보 JSON 가져오기
         GetGroupInfoData groupPhotoTask = new GetGroupInfoData();
@@ -185,6 +195,20 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
 
         groupPhotoAdapter = new GroupPhotoAdapter();
         recyclerView.setAdapter(groupPhotoAdapter);
+
+        //리사이클러뷰 아이템 클릭 이벤트
+        groupPhotoAdapter.setOnItemClickListener(new GroupPhotoAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position, GroupPhotoData data) {
+
+                Log.e(TAG, "불러온 사진 경로: " + photoList);
+                // 아이템 클릭 이벤트를 Activity에서 처리
+                    Intent intent = new Intent(GroupPhotoActivity.this, GroupPhotoSliderActivity.class);
+//                    intent.putExtra("placeName", data.getPlaceName());
+//                    intent.putExtra("placeAddress", data.getPlaceAddress());
+                    startActivity(intent);
+            }
+        });
     }
 
     //모임 사진 정보 JSON 가져오기
@@ -208,7 +232,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-//            Log.e(TAG, "response - " + result);
+            Log.e(TAG, "response - " + result);
 
             if (result == null) {
                 Log.e(TAG, errorString);
@@ -224,7 +248,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
         protected String doInBackground(String... params) {
 
             String serverURL = params[0];
-            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX;
+            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "";
 
             try {
                 URL url = new URL(serverURL);
@@ -278,7 +302,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
         }
     }
 
-    //모임 사진진 정보 JSO 파싱 후, 데이터 저장하기
+    //모임 사진진 정보 JSON 파싱 후, 데이터 저장하기
     private void groupPhotoResult() {
 
         String TAG_JSON = "groupGallery";
@@ -306,11 +330,20 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
                 // 각 값이 들어간 data를 adapter에 추가합니다.
                 groupPhotoAdapter.addItem(0, data);
 
+                //불러온 사진 경로 저장하기
+                photoList.add(galleryImg);
+
 
             }
 
             // adapter의 값이 변경되었다는 것을 알려줍니다.
             groupPhotoAdapter.notifyDataSetChanged();
+
+            if(groupPhotoAdapter.listData.size() == 0){
+                noneContent.setVisibility(View.VISIBLE);
+            } else {
+                noneContent.setVisibility(View.GONE);
+            }
 
         } catch (JSONException e) {
 
@@ -361,6 +394,12 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
 
                             groupPhotoAdapter.addItem(0, data);
                             groupPhotoAdapter.notifyDataSetChanged();
+
+                            if(groupPhotoAdapter.listData.size() == 0){
+                                noneContent.setVisibility(View.VISIBLE);
+                            } else {
+                                noneContent.setVisibility(View.GONE);
+                            }
 
                             //DB 저장
                             InsertData task = new InsertData();

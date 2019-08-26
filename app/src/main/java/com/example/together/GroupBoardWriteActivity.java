@@ -116,6 +116,7 @@ public class GroupBoardWriteActivity extends AppCompatActivity {
                     data.setBoardDate(getDateFormat(boardDate, "yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd")); //게시글 작성날짜
                 }
 
+                //새로 작성한 게시글이므로 조회수는 0으로 입력한다.
                 data.setBoardView(0);
                 data.setBoardIdx(getBoardIdx);
 
@@ -125,8 +126,9 @@ public class GroupBoardWriteActivity extends AppCompatActivity {
 
                 //게시글 추가를 완료했을 경우 해당 화면을 닫는다.
                 Intent intent = new Intent(GroupBoardWriteActivity.this, GroupBoardViewActivity.class);
-                intent.putExtra("boardIdx", getBoardIdx);
+                intent.putExtra("boardIdxOri", getBoardIdx);
                 startActivity(intent);
+                overridePendingTransition(0, 0);
                 finish();
             }
         });

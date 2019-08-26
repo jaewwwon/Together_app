@@ -33,7 +33,6 @@ public class SearchDistrictAdapter extends RecyclerView.Adapter<SearchDistrictAd
     // 리스너 객체 참조를 저장하는 변수
     private OnItemClickListener mListener = null;
 
-
     public interface OnItemClickListener {
         void onItemClick(View v, int position, SearchDistrictData data);
     }

@@ -45,12 +45,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="프로필 수정"
         android:textSize="14sp"
         android:textColor="#333"
-        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -68,12 +67,11 @@
         android:id="@+id/termsBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="이용약관"
         android:textSize="14sp"
         android:textColor="#333"
-        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/profileBtn" />
@@ -91,12 +89,11 @@
         android:id="@+id/privacyBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="개인정보처리방침"
         android:textSize="14sp"
         android:textColor="#333"
-        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/termsBtn" />
@@ -114,12 +111,11 @@
         android:id="@+id/leaveBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="회원탈퇴"
         android:textSize="14sp"
         android:textColor="#333"
-        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/privacyBtn" />
@@ -137,12 +133,11 @@
         android:id="@+id/logoutBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="13dp"
-        android:paddingBottom="13dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="로그아웃"
         android:textSize="14sp"
         android:textColor="#333"
-        android:background="@drawable/style_border_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/leaveBtn" />
@@ -162,7 +157,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="@drawable/style_border_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -215,6 +209,59 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:id="@+id/divider22"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        app:layout_constraintBottom_toTopOf="@+id/profileBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/divider23"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        app:layout_constraintBottom_toTopOf="@+id/termsBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/divider24"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        app:layout_constraintBottom_toTopOf="@+id/privacyBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/divider25"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        app:layout_constraintBottom_toTopOf="@+id/leaveBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/divider26"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/divider27"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#ccc"
+        app:layout_constraintBottom_toBottomOf="@+id/logoutBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

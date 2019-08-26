@@ -1,5 +1,6 @@
 package com.example.together;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,10 +17,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
+import com.google.maps.android.clustering.ClusterItem;
+import com.google.maps.android.clustering.ClusterManager;
+import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchLocationActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -30,6 +37,7 @@ public class SearchLocationActivity extends FragmentActivity implements OnMapRea
     private Geocoder geocoder; //지오코더
     private EditText inputLocation; //장소 입력란
     private Button searchButton; //검색 버튼
+    private ClusterManager<MyItem> mClusterManager;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,8 @@ public class SearchLocationActivity extends FragmentActivity implements OnMapRea
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
 
 
@@ -60,6 +70,12 @@ public class SearchLocationActivity extends FragmentActivity implements OnMapRea
 
         // 구글맵 객체를 불러온다.
         mMap = googleMap;
+
+
+//        setCluster(googleMap);
+
+
+
 
         // 지오코더
         geocoder = new Geocoder(this);
@@ -154,10 +170,66 @@ public class SearchLocationActivity extends FragmentActivity implements OnMapRea
         //결과 값을 resultIntent 에 담아서 PopupScheduleAddActivity 로 전달하고 현재 Activity는 종료.
         Intent resultIntent = new Intent();
         resultIntent.putExtra("locationResult", marker.getSnippet());
-        setResult(RESULT_OK,resultIntent);
+        setResult(RESULT_OK, resultIntent);
         finish();
         return false;
     }
+
+//    private void setCluster(final GoogleMap googleMap) {
+//
+////        mMap.setOnCameraIdleListener(mClusterManager);
+////        mMap.setOnMarkerClickListener(mClusterManager);
+//
+////        final List<MyItem> mPosi = /* 좌표정보 데이터 리스트 */;
+//        final List<MyItem> mPosi = new ArrayList<>();
+//        if(mPosi != null) {
+//            if (mPosi.size() > 0) {
+//                mClusterManager = new ClusterManager<MyItem>(this, googleMap);
+//                googleMap.setOnCameraIdleListener(mClusterManager);
+//                googleMap.setOnMarkerClickListener(mClusterManager);
+//
+//                LatLngBounds.Builder builder = LatLngBounds.builder();  // Bounds 모든 데이터를 맵 안으로 보여주게 하기 위한
+//                LatLngBounds bounds = addItems(builder, mPosi);         // 클러스터 Marker 추가
+//                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, ZoomLevel));
+//                float zoom = googleMap.getCameraPosition().zoom - 0.5f;
+//                googleMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
+//
+//                mClusterManager.setRenderer(new OwnIconRendered(mAppData, googleMap, mClusterManager));
+//
+//                // 내용 클릭시
+//                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//                    @Override
+//                    public void onInfoWindowClick(Marker marker) {
+//                    }
+//                });
+//
+//                // 클러스터 클릭시 펼치기
+//                mClusterManager.setOnClusterClickListener(new ClusterManager.OnClusterClickListener<MyItem>() {
+//                    @Override
+//                    public boolean onClusterClick(Cluster<MyItem> cluster) {
+//                        LatLngBounds.Builder builder_c = LatLngBounds.builder();
+//                        for (ClusterItem item : cluster.getItems()) {
+//                            builder_c.include(item.getPosition());
+//                        }
+//                        LatLngBounds bounds_c = builder_c.build();
+//                        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds_c, ZoomLevel));
+//                        float zoom = googleMap.getCameraPosition().zoom - 0.5f;
+//                        googleMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
+//                        return true;
+//                    }
+//                });
+//            }
+//        }
+//    }
+
+    // 마커 추가
+    private void addItems(List<MyItem> mPosi) {
+        for (MyItem item : mPosi) {
+            mClusterManager.addItem(item);
+        }
+    }
+
+
 }
 
 //package com.example.together;

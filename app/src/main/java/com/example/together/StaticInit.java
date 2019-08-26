@@ -17,9 +17,9 @@ public class StaticInit extends AppCompatActivity {
     public static String PAGE_GROUP_NAME; //현재 페이지의 모임 이름
 
     public static String IP_ADDRESS = "13.125.221.240";
-    //TODO 로그인 임시 메일
-    public static String loginUserId = "jaewons1218@gmail.com";
+    public static String loginUserId = "";
     public static String loginUserName = "";
+
 //    public static List<String> userInfoList = new ArrayList<String>(); // 회원정보 리스트
 
     // 원하는 날짜 형식 출력하기

@@ -8,371 +8,398 @@
     android:background="#ffffff"
     tools:context=".MainActivity">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="16dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="16dp" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="프로필 수정"
-        android:textColor="#333"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/guideline12" />
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="16dp" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필 수정"
+                android:textColor="#333"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/guideline12" />
+
+            <ImageView
+                android:id="@+id/prevButton"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/textView5"
+                app:srcCompat="@drawable/img_arr_left" />
+
+            <ImageView
+                android:id="@+id/profileButton"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="32dp"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                app:srcCompat="@drawable/img_profile" />
+
+            <ImageView
+                android:id="@+id/imageView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/profileButton"
+                app:layout_constraintEnd_toEndOf="@+id/profileButton"
+                app:srcCompat="@drawable/img_camera" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                app:layout_constraintBottom_toBottomOf="@+id/inputName"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/inputName" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:text="*"
+                android:textColor="#f7183e"
+                app:layout_constraintStart_toStartOf="@+id/textView33"
+                app:layout_constraintTop_toTopOf="@+id/textView33" />
+
+            <EditText
+                android:id="@+id/inputName"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:hint="이름을 입력하세요"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toEndOf="@+id/textView33"
+                app:layout_constraintTop_toBottomOf="@+id/profileButton" />
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="이메일"
+                app:layout_constraintBottom_toBottomOf="@+id/inputEmail"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/inputEmail" />
+
+            <TextView
+                android:id="@+id/textView47"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginLeft="44dp"
+                android:text="*"
+                android:textColor="#f7183e"
+                app:layout_constraintStart_toStartOf="@+id/textView38"
+                app:layout_constraintTop_toTopOf="@+id/textView38" />
+
+            <TextView
+                android:id="@+id/inputEmail"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_disabled"
+                android:ems="10"
+                android:hint="text@gmail.com"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView38"
+                app:layout_constraintTop_toBottomOf="@+id/inputName" />
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="비밀번호"
+                app:layout_constraintBottom_toBottomOf="@+id/inputPassword"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/inputPassword" />
+
+            <EditText
+                android:id="@+id/inputPassword"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:hint="비밀번호를 입력하세요"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toEndOf="@+id/textView40"
+                app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="2dp"
+                android:text="(비밀번호는 변경시 입력하세요.) "
+                android:textColor="#f7183e"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
+
+            <TextView
+                android:id="@+id/textView41"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="비밀번호 \n재확인"
+                app:layout_constraintBottom_toBottomOf="@+id/inputPasswordRe"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/inputPasswordRe" />
+
+            <EditText
+                android:id="@+id/inputPasswordRe"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:hint="비밀번호를 한번 더 입력하세요"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toEndOf="@+id/textView41"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/textView42"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="연락처"
+                app:layout_constraintBottom_toBottomOf="@+id/userTelFirst"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/userTelFirst" />
+
+            <EditText
+                android:id="@+id/userTelFirst"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:inputType="phone"
+                app:layout_constraintEnd_toStartOf="@+id/textView44"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView42"
+                app:layout_constraintTop_toBottomOf="@+id/inputPasswordRe" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="-"
+                app:layout_constraintBottom_toBottomOf="@+id/userTelFirst"
+                app:layout_constraintEnd_toStartOf="@+id/userTelMiddle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/userTelFirst"
+                app:layout_constraintTop_toTopOf="@+id/userTelFirst" />
+
+            <EditText
+                android:id="@+id/userTelMiddle"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/userTelFirst"
+                app:layout_constraintEnd_toStartOf="@+id/textView43"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView44"
+                app:layout_constraintTop_toTopOf="@+id/userTelFirst" />
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="-"
+                app:layout_constraintBottom_toBottomOf="@+id/userTelMiddle"
+                app:layout_constraintEnd_toStartOf="@+id/userTelLast"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/userTelMiddle"
+                app:layout_constraintTop_toTopOf="@+id/userTelMiddle" />
+
+            <EditText
+                android:id="@+id/userTelLast"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/userTelMiddle"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView43"
+                app:layout_constraintTop_toTopOf="@+id/userTelMiddle" />
+
+            <TextView
+                android:id="@+id/textView45"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="생년월일"
+                app:layout_constraintBottom_toBottomOf="@+id/inputBirth"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/inputBirth" />
+
+            <TextView
+                android:id="@+id/inputBirth"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:textColor="#333"
+                android:background="@drawable/style_input_border"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView45"
+                app:layout_constraintTop_toBottomOf="@+id/userTelFirst" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/inputBirth"
+                app:layout_constraintEnd_toEndOf="@+id/inputBirth"
+                app:layout_constraintTop_toTopOf="@+id/inputBirth"
+                app:layout_constraintVertical_bias="0.5"
+                app:srcCompat="@drawable/img_arr_right" />
 
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+            <TextView
+                android:id="@+id/textView46"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="지역"
+                app:layout_constraintBottom_toBottomOf="@+id/searchLocationBtn"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/searchLocationBtn" />
 
-    <ImageView
-        android:id="@+id/prevButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/textView5"
-        app:srcCompat="@drawable/img_arr_left" />
+            <TextView
+                android:id="@+id/searchLocationBtn"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_input_border"
+                android:padding="10dp"
+                android:textColor="#333"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toEndOf="@+id/textView46"
+                app:layout_constraintTop_toBottomOf="@+id/inputBirth" />
 
-    <ImageView
-        android:id="@+id/profileButton"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginTop="32dp"
-        android:adjustViewBounds="true"
-        android:padding="10dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:srcCompat="@drawable/img_profile" />
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/searchLocationBtn"
+                app:layout_constraintEnd_toEndOf="@+id/searchLocationBtn"
+                app:layout_constraintTop_toTopOf="@+id/searchLocationBtn"
+                app:layout_constraintVertical_bias="0.5"
+                app:srcCompat="@drawable/img_arr_right" />
 
-    <ImageView
-        android:id="@+id/imageView26"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/profileButton"
-        app:layout_constraintEnd_toEndOf="@+id/profileButton"
-        app:srcCompat="@drawable/img_camera" />
+            <TextView
+                android:id="@+id/textView48"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="자기소개"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toTopOf="@+id/inputIntro" />
 
-    <TextView
-        android:id="@+id/textView33"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="이름"
-        app:layout_constraintBottom_toBottomOf="@+id/inputName"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/inputName" />
+            <EditText
+                android:id="@+id/inputIntro"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/style_input_border"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:padding="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toEndOf="@+id/textView48"
+                app:layout_constraintTop_toBottomOf="@+id/searchLocationBtn" />
 
-    <EditText
-        android:id="@+id/inputName"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:hint="이름을 입력하세요"
-        android:inputType="text"
-        android:padding="10dp"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/textView33"
-        app:layout_constraintTop_toBottomOf="@+id/profileButton" />
+            <Button
+                android:id="@+id/modifyButton"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="28dp"
+                android:padding="10dp"
+                android:background="@drawable/style_button_green"
+                android:text="회원정보 수정"
+                android:textColor="#ffffff"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintStart_toStartOf="@+id/guideline5"
+                app:layout_constraintTop_toBottomOf="@+id/inputIntro" />
 
-    <TextView
-        android:id="@+id/inputEmail"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_disabled"
-        android:ems="10"
-        android:hint="text@gmail.com"
-        android:padding="10dp"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView38"
-        app:layout_constraintTop_toBottomOf="@+id/inputName" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
-    <EditText
-        android:id="@+id/inputPassword"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:hint="비밀번호를 입력하세요"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/textView40"
-        app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
 
-    <EditText
-        android:id="@+id/inputPasswordRe"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:hint="비밀번호를 한번 더 입력하세요"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/textView41"
-        app:layout_constraintTop_toBottomOf="@+id/inputPassword" />
-
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="이메일"
-        app:layout_constraintBottom_toBottomOf="@+id/inputEmail"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/inputEmail" />
-
-    <TextView
-        android:id="@+id/textView40"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="비밀번호"
-        app:layout_constraintBottom_toBottomOf="@+id/inputPassword"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/inputPassword" />
-
-    <TextView
-        android:id="@+id/textView41"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="비밀번호 \n재확인"
-        app:layout_constraintBottom_toBottomOf="@+id/inputPasswordRe"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/inputPasswordRe" />
-
-    <TextView
-        android:id="@+id/textView42"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="연락처"
-        app:layout_constraintBottom_toBottomOf="@+id/userTelFirst"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/userTelFirst" />
-
-    <EditText
-        android:id="@+id/userTelFirst"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:inputType="phone"
-        app:layout_constraintEnd_toStartOf="@+id/textView44"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView42"
-        app:layout_constraintTop_toBottomOf="@+id/inputPasswordRe" />
-
-    <EditText
-        android:id="@+id/userTelMiddle"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:inputType="phone"
-        app:layout_constraintBottom_toBottomOf="@+id/userTelFirst"
-        app:layout_constraintEnd_toStartOf="@+id/textView43"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView44"
-        app:layout_constraintTop_toTopOf="@+id/userTelFirst" />
-
-    <EditText
-        android:id="@+id/userTelLast"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:inputType="phone"
-        app:layout_constraintBottom_toBottomOf="@+id/userTelMiddle"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView43"
-        app:layout_constraintTop_toTopOf="@+id/userTelMiddle" />
-
-    <TextView
-        android:id="@+id/textView43"
-        android:layout_width="10dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="-"
-        app:layout_constraintBottom_toBottomOf="@+id/userTelMiddle"
-        app:layout_constraintEnd_toStartOf="@+id/userTelLast"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/userTelMiddle"
-        app:layout_constraintTop_toTopOf="@+id/userTelMiddle" />
-
-    <TextView
-        android:id="@+id/textView44"
-        android:layout_width="10dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="-"
-        app:layout_constraintBottom_toBottomOf="@+id/userTelFirst"
-        app:layout_constraintEnd_toStartOf="@+id/userTelMiddle"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/userTelFirst"
-        app:layout_constraintTop_toTopOf="@+id/userTelFirst" />
-
-    <TextView
-        android:id="@+id/textView45"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="생년월일"
-        app:layout_constraintBottom_toBottomOf="@+id/userYear"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/userYear" />
-
-    <Spinner
-        android:id="@+id/userYear"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_input_border"
-        app:layout_constraintEnd_toStartOf="@+id/userMonth"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView45"
-        app:layout_constraintTop_toBottomOf="@+id/userTelFirst" />
-
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/userYear"
-        app:layout_constraintEnd_toEndOf="@+id/userYear"
-        app:layout_constraintTop_toTopOf="@+id/userYear"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/img_arr_down" />
-
-    <Spinner
-        android:id="@+id/userMonth"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/style_input_border"
-        app:layout_constraintBottom_toBottomOf="@+id/userYear"
-        app:layout_constraintEnd_toStartOf="@+id/userDay"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/userYear"
-        app:layout_constraintTop_toTopOf="@+id/userYear" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/userMonth"
-        app:layout_constraintEnd_toEndOf="@+id/userMonth"
-        app:layout_constraintTop_toTopOf="@+id/userMonth"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/img_arr_down" />
-
-    <Spinner
-        android:id="@+id/userDay"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/style_input_border"
-        app:layout_constraintBottom_toBottomOf="@+id/userMonth"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/userMonth"
-        app:layout_constraintTop_toTopOf="@+id/userMonth" />
-
-    <ImageView
-        android:id="@+id/imageView11"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/userDay"
-        app:layout_constraintEnd_toEndOf="@+id/userDay"
-        app:layout_constraintTop_toTopOf="@+id/userDay"
-        app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/img_arr_down" />
-
-    <TextView
-        android:id="@+id/textView46"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="지역"
-        app:layout_constraintBottom_toBottomOf="@+id/textView47"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/textView47" />
-
-    <TextView
-        android:id="@+id/textView47"
-        android:layout_width="0dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_button_normal"
-        android:padding="10dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/textView46"
-        app:layout_constraintTop_toBottomOf="@+id/userYear" />
-
-    <TextView
-        android:id="@+id/textView48"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="자기소개"
-        app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="@+id/editText2" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/style_input_border"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline6"
-        app:layout_constraintStart_toEndOf="@+id/textView48"
-        app:layout_constraintTop_toBottomOf="@+id/textView47" />
 
 
 </android.support.constraint.ConstraintLayout>

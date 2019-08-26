@@ -40,6 +40,7 @@ import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
 import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +89,6 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
         submitButton = findViewById(R.id.submitButton);
 
 
-
         //프로필사진 버튼을 클릭했을 경우
         profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,8 +128,6 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
 //                }, 1000);
 
 
-
-
             }
         });
 
@@ -163,7 +161,7 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
                 } else if (isCheck == false) {
                     Toast.makeText(RegisterInfoActivity.this, "이메일을 중복확인 하세요.", Toast.LENGTH_SHORT).show();
                     return;
-                } else if(inputPassword.getText().toString().length() == 0 || inputPasswordRe.getText().toString().length() == 0){
+                } else if (inputPassword.getText().toString().length() == 0 || inputPasswordRe.getText().toString().length() == 0) {
                     Toast.makeText(RegisterInfoActivity.this, "비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (!inputPassword.getText().toString().equals(inputPasswordRe.getText().toString())) {
@@ -502,7 +500,7 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
         }
     }
 
-    private void emailCheckFunction(){
+    private void emailCheckFunction() {
         if (!inputEmail.getText().toString().matches("^[A-z|0-9]([A-z|0-9]*)(@)([A-z]*)(\\.)([A-z]*)$")) {
             Toast.makeText(RegisterInfoActivity.this, "이메일을 형식을 확인하세요.", Toast.LENGTH_SHORT).show();
             return;

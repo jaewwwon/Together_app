@@ -162,6 +162,18 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/noneContent"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:text="등록된 일정이 없습니다."
+        android:background="#fff"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider10" />
+
     <ImageButton
         android:id="@+id/scheduleAddBtn"
         android:layout_width="52dp"

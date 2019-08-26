@@ -91,6 +91,12 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
         //페이지 모임 이름 설정
         pageGroupTit.setText(PAGE_GROUP_NAME);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume");
 
         // 인텐트값 넘겨받기
         Intent intent = getIntent();
@@ -98,6 +104,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         itemSize = intent.getIntExtra("itemSizeOri", 0); //아이템 사이즈
         boardIdx = intent.getIntExtra("boardIdxOri", 0); //게시글 index
         Log.e(TAG, "게시글 index 정보: " + boardIdx);
+
 
         //정보탭 버튼을 클릭했을 경우
         infoTab.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +175,12 @@ public class GroupBoardViewActivity extends AppCompatActivity {
             }
         });
 
+
+        //조회수 요청하기
+        GetBoardViewData viewTask = new GetBoardViewData();
+        viewTask.execute("http://" + IP_ADDRESS + "/db/board_view_cookie.php", String.valueOf(boardIdx), String.valueOf(PAGE_GROUP_INDEX));
+
+
         // 회원 정보 가져오기
         GetUserData userTask = new GetUserData();
         userTask.execute("http://" + IP_ADDRESS + "/db/user.php", "");
@@ -177,20 +190,27 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         boardTask.execute("http://" + IP_ADDRESS + "/db/group_board.php", "");
 
 
-        BoardCommentInit(); //게시글 목록 초기화
+        BoardCommentInit(); //게시판 댓글 목록 초기화
         //게시글 댓글 정보 JSON 가져오기
         GetBoardCommentData boardCommentTask = new GetBoardCommentData();
         boardCommentTask.execute("http://" + IP_ADDRESS + "/db/board_comment.php", "");
-
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e(TAG, "onResume");
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 5000:
+                    finish();
+                    break;
+            }
+        }
     }
 
     //게시판 댓글 목록 초기화
@@ -204,6 +224,97 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
         groupBoardViewAdapter = new GroupBoardViewAdapter();
         recyclerView.setAdapter(groupBoardViewAdapter);
+    }
+
+    //조회수 요청 보내기
+    private class GetBoardViewData extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(GroupBoardViewActivity.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        // 에러가 있는 경우 에러메시지를 보여주고 아니면 JSON을 파싱하여 화면에 보여주는 boardCommentResult 메소드를 호출합니다.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+            Log.e(TAG, "response - " + result);
+
+            if (result == null) {
+                Log.e(TAG, errorString);
+            } else {
+                jsonString = result;
+            }
+        }
+
+        // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String boardIdx = params[1];
+            String groupIdx = params[2];
+            String postParameters = "board=" + boardIdx + "&group=" + groupIdx;
+
+            try {
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.e(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                } else {
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.e(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
     }
 
     //모임 게시판 정보 JSON 가져오기
@@ -364,7 +475,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
     }
 
-    //회원 정보 JSO 파싱 후, 데이터 저장하기
+    //회원 정보 JSON 파싱 후, 데이터 저장하기
     private class GetUserData extends AsyncTask<String, Void, String> {
 
         ProgressDialog progressDialog;
@@ -546,6 +657,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
                 boardView.setText(boardInfoList.get(5)); //조회수
             }
+
         }
 
         // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
@@ -650,21 +762,6 @@ public class GroupBoardViewActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        overridePendingTransition(0, 0);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 5000:
-                    finish();
-                    break;
-            }
-        }
-    }
 
 }

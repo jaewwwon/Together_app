@@ -51,6 +51,7 @@ public class GroupBoardActivity extends AppCompatActivity {
     ImageView boardCateSelectImg; //말머리 선택 버튼 이미지
     TextView boardNoticeBtn; //공지사항 버튼
     ImageView boardAddBtn; //게시글 추가 버튼
+    TextView noneContent; //컨텐츠가 없을 경우 표시되는 문구
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class GroupBoardActivity extends AppCompatActivity {
         boardCateSelectImg = findViewById(R.id.boardCateSelectImg);
         boardNoticeBtn = findViewById(R.id.boardNoticeBtn);
         boardAddBtn = findViewById(R.id.boardAddBtn);
+        noneContent = findViewById(R.id.noneContent);
 
 
         //페이지 모임 이름 설정
@@ -141,6 +143,12 @@ public class GroupBoardActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         // 회원 정보 가져오기
         GetUserData userTask = new GetUserData();
         userTask.execute("http://" + IP_ADDRESS + "/db/user.php", "");
@@ -149,6 +157,12 @@ public class GroupBoardActivity extends AppCompatActivity {
         //모임 게시글 정보 JSON 가져오기
         GetGroupBoardData groupBoardTask = new GetGroupBoardData();
         groupBoardTask.execute("http://" + IP_ADDRESS + "/db/group_board.php", "");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 
     //게시판 목록 초기화
@@ -312,6 +326,14 @@ public class GroupBoardActivity extends AppCompatActivity {
             // adapter의 값이 변경되었다는 것을 알려줍니다.
             groupBoardAdapter.notifyDataSetChanged();
 
+//            Log.e(TAG, "목록 아이템 수: " + groupBoardAdapter.listData.size());
+
+            if(groupBoardAdapter.listData.size() == 0){
+                noneContent.setVisibility(View.VISIBLE);
+            } else {
+                noneContent.setVisibility(View.GONE);
+            }
+
         } catch (JSONException e) {
 
             Log.e(TAG, "showResult : ", e);
@@ -438,9 +460,4 @@ public class GroupBoardActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        overridePendingTransition(0, 0);
-    }
 }

@@ -127,6 +127,9 @@
             android:name=".PopupPhotoUtilActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
+        <!-- 모임 상세(사진첩 사진슬라이드) 화면 -->
+        <activity android:name=".GroupPhotoSliderActivity" />
+
         <!-- 모임 상세(채팅) 화면 -->
         <activity android:name=".GroupChatActivity" />
 
@@ -136,9 +139,20 @@
         <!-- 모임관리 - 생성한 모임 -->
         <activity android:name=".ManageCreateActivity" />
 
-
         <!-- 설정 -->
         <activity android:name=".SettingActivity" />
+
+        <!-- 설정 - 프로필 수정 -->
+        <activity android:name=".SettingProfileActivity" />
+
+        <!-- 설정 - 회원탈퇴 -->
+        <activity android:name=".SettingLeaveActivity" />
+
+        <!-- 설정 - 이용약관 -->
+        <activity android:name=".SettingTermsActivity" />
+
+        <!-- 설정 - 개인정보취급방침 -->
+        <activity android:name=".SettingPrivacyActivity" />
 
     </application>
 

@@ -29,7 +29,17 @@ public class GroupPhotoAdapter extends RecyclerView.Adapter<GroupPhotoAdapter.It
     final private String TAG = "GroupPhotoAdapter";
     Context context;
     public ArrayList<GroupPhotoData> listData = new ArrayList<>(); //adapter에 들어갈 list
+    // 리스너 객체 참조를 저장하는 변수
+    private OnItemClickListener mListener = null;
 
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position, GroupPhotoData data);
+    }
+
+    // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
 
     @NonNull
     @Override
@@ -98,14 +108,28 @@ public class GroupPhotoAdapter extends RecyclerView.Adapter<GroupPhotoAdapter.It
                 }
             });
 
+            // 해당 리사이클러뷰 아이템을 클릭했을 경우
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos, data);
+                        }
+                    }
+                }
+
+            });
+
 
 //            // 해당 리사이클러뷰 아이템을 클릭했을 경우
 //            itemView.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    Intent intent = new Intent(v.getContext(), PlaceViewActivity.class);
-//                    intent.putExtra("placeName", data.getPlaceName());
-//                    intent.putExtra("placeAddress", data.getPlaceAddress());
+//                    Intent intent = new Intent(v.getContext(), GroupPhotoSliderActivity.class);
+////                    intent.putExtra("placeName", data.getPlaceName());
+////                    intent.putExtra("placeAddress", data.getPlaceAddress());
 //                    v.getContext().startActivity(intent);
 //                }
 //            });
