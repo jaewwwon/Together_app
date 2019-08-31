@@ -49,7 +49,6 @@ public class SettingLeaveActivity extends AppCompatActivity {
     Button leaveBtn; //탈퇴하기 버튼
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +80,7 @@ public class SettingLeaveActivity extends AppCompatActivity {
         checkAgree.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) { //체크가 된경우
+                if (((CheckBox) v).isChecked()) { //체크가 된경우
                     isCheck = true;
                 } else { //체크를 해제한 경우
                     isCheck = false;
@@ -95,10 +94,10 @@ public class SettingLeaveActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(userPassword.getText().toString().length() == 0){
+                if (userPassword.getText().toString().length() == 0) {
                     Toast.makeText(SettingLeaveActivity.this, "비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (isCheck == false){
+                } else if (isCheck == false) {
                     Toast.makeText(SettingLeaveActivity.this, "탈퇴 유의사항에 동의해야합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -140,13 +139,21 @@ public class SettingLeaveActivity extends AppCompatActivity {
             } else {
                 jsonString = result;
 
-                if(result.equals("회원탈퇴가 완료되었습니다.")){
+                if (result.equals("회원탈퇴가 완료되었습니다.")) {
+//                    Log.e(TAG, "회원탈퇴 성공");
+
+                    //쉐어드프리퍼런스에 저장한 자동로그인 데이터 지우기
+                    SharedPreferences.Editor editor = getSharedPreferences("sFile", 0).edit();
+                    editor.clear();
+                    editor.apply();
+
                     Toast.makeText(SettingLeaveActivity.this, result, Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(SettingLeaveActivity.this, LoginActivity.class);
                     // 기존에 담겨있던 모든 task를 제거하고, 로그인 activity만 보여줌
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+
                 } else {
                     Toast.makeText(SettingLeaveActivity.this, result, Toast.LENGTH_SHORT).show();
                 }

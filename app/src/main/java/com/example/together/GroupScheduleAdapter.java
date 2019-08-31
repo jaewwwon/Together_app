@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.example.together.GroupScheduleActivity.diffOfDate;
+import static com.example.together.StaticInit.PAGE_GROUP_HOST;
+import static com.example.together.StaticInit.loginUserId;
 
 public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdapter.ItemViewHolder> {
 
@@ -91,6 +93,7 @@ public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdap
         private TextView scheduleIdx; //일정 index
         private TextView groupIdx; //모임 index
         private ImageView utilBtn; //일정 수정/삭제 팝업 버튼
+        private TextView attendButton; //일정 참석 버튼
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -106,6 +109,7 @@ public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdap
             scheduleIdx = itemView.findViewById(R.id.scheduleIdx);
             groupIdx = itemView.findViewById(R.id.groupIdx);
             utilBtn = itemView.findViewById(R.id.utilBtn);
+            attendButton = itemView.findViewById(R.id.attendButton);
         }
 
         void onBind(final SearchScheduleData data) {
@@ -138,21 +142,34 @@ public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdap
 //                }
 //            });
 
-            //일정 수정/삭제 팝업 버튼을 클릭했을 경우
-            utilBtn.setOnClickListener(new View.OnClickListener() {
+            //일정 참석 버튼을 눌렀을 경우
+            attendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), PopupScheduleUtilActivity.class);
-                    intent.putExtra("itemPositionOri", getAdapterPosition()); //아이템 위치값
-                    intent.putExtra("itemSizeOri", listData.size()); //아이템 크기
-                    intent.putExtra("scheduleIdxOri", data.getScheduleIdx()); //아이템 일정 index
-                    intent.putExtra("scheduleTitleOri", data.getScheduleTitle()); //아이템 일정 제목
-                    intent.putExtra("scheduleContentOri", data.getScheduleContent()); //아이템 일정 내용
-                    intent.putExtra("scheduleDateOri", data.getScheduleDate()); //아이템 일정 날짜
-                    intent.putExtra("scheduleLocationOri", data.getScheduleLocation()); //아이템 일정 장소
-                    v.getContext().startActivity(intent);
+
                 }
             });
+
+            //로그인한 이메일과 모임장의 이메일이 다를 경우에는 일정 수정/삭제 버튼을 숨긴다.
+            if (!PAGE_GROUP_HOST.equals(loginUserId)) {
+                utilBtn.setVisibility(View.GONE);
+            } else {
+                //일정 수정/삭제 팝업 버튼을 클릭했을 경우
+                utilBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), PopupScheduleUtilActivity.class);
+                        intent.putExtra("itemPositionOri", getAdapterPosition()); //아이템 위치값
+                        intent.putExtra("itemSizeOri", listData.size()); //아이템 크기
+                        intent.putExtra("scheduleIdxOri", data.getScheduleIdx()); //아이템 일정 index
+                        intent.putExtra("scheduleTitleOri", data.getScheduleTitle()); //아이템 일정 제목
+                        intent.putExtra("scheduleContentOri", data.getScheduleContent()); //아이템 일정 내용
+                        intent.putExtra("scheduleDateOri", data.getScheduleDate()); //아이템 일정 날짜
+                        intent.putExtra("scheduleLocationOri", data.getScheduleLocation()); //아이템 일정 장소
+                        v.getContext().startActivity(intent);
+                    }
+                });
+            }
 
         }
     }

@@ -733,7 +733,7 @@ public class MainActivity extends AppCompatActivity {
                     data.setGroupThumbnail(groupImg);
                 }
 
-                data.setGroupLocation(groupCity + groupCounty + groupDistrict);
+                data.setGroupLocation(groupCity + " " + groupCounty); //모임의 시군 / 시군구 정보 출력
 
                 if (groupMemberList.contains(groupIdx)) {
                     int memberCont = 0;
@@ -747,10 +747,8 @@ public class MainActivity extends AppCompatActivity {
                     data.setGroupMember(1);
                 }
 
-
                 // listData.add(data);
                 groupAdapter.addItem(data);
-
 
                 groupInfoList.add(String.valueOf(groupIdx));
                 groupInfoList.add(groupCategory);

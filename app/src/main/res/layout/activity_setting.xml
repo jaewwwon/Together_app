@@ -151,63 +151,6 @@
         app:layout_constraintTop_toTopOf="@+id/logoutBtn"
         app:srcCompat="@drawable/img_arr_right" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/homeNav"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="홈"
-            android:drawableTop="@drawable/ic_home_black_24dp"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:textColor="#555"
-            android:drawableTint="#666"
-            app:layout_constraintEnd_toStartOf="@+id/manageNav"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/manageNav"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="모임관리"
-            android:drawableTop="@drawable/ic_dashboard_black_24dp"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:textColor="#555"
-            android:drawableTint="#666"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/settingNav"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/homeNav"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
-
-        <TextView
-            android:id="@+id/settingNav"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:text="설정"
-            android:drawableTop="@drawable/ic_settings_black_24dp"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:textColor="#009688"
-            android:drawableTint="#009688"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/manageNav"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
 
     <View
         android:id="@+id/divider22"
@@ -263,5 +206,63 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@drawable/style_border_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/homeNav"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="홈"
+            android:drawableTop="@drawable/ic_home_black_24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#555"
+            android:drawableTint="#666"
+            app:layout_constraintEnd_toStartOf="@+id/manageNav"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/manageNav"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="모임관리"
+            android:drawableTop="@drawable/ic_dashboard_black_24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#555"
+            android:drawableTint="#666"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/settingNav"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeNav"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/settingNav"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:drawableTop="@drawable/ic_settings_black_24dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="#009688"
+            android:drawableTint="#009688"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/manageNav"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

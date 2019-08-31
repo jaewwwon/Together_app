@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.together.StaticInit.PAGE_GROUP_HOST;
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.PAGE_GROUP_NAME;
 import static com.example.together.StaticInit.getDateFormat;
@@ -157,8 +158,13 @@ public class GroupBoardModifyActivity extends AppCompatActivity {
     }
 
     public void setViews() {
-        // 스피너 어댑터를 초기화한다
-        categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, R.layout.textview);
+        if(PAGE_GROUP_HOST.equals(loginUserId)){
+            // 스피너 어댑터를 초기화한다
+            categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category_host, R.layout.textview);
+        } else {
+            // 스피너 어댑터를 초기화한다
+            categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, R.layout.textview);
+        }
         //해당 스피너에 어댑터를 연결한다
         boardCategory.setAdapter(categoryAdapter);
 //        //초기 기본 선택값을 지정한다.
@@ -207,6 +213,8 @@ public class GroupBoardModifyActivity extends AppCompatActivity {
 
             String serverURL = params[0]; //URL 주소값
             String boardIdx = params[1]; //게시글 카테고리
+
+            Log.e(TAG, "보내는 게시글 index : " + boardIdx);
 
             //게시글 카테고리, 제목, 내용, 작성자, 모임 index
             String postParameters = "boardIdx=" + boardIdx + "&whereTxt=" + "";

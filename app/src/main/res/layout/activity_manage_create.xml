@@ -156,4 +156,16 @@
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+    <TextView
+        android:id="@+id/noneContent"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:background="#fff"
+        android:gravity="center"
+        android:text="만든 모임이 없습니다."
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
 </android.support.constraint.ConstraintLayout>

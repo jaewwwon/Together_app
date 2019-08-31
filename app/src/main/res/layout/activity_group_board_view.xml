@@ -344,9 +344,22 @@
                 android:id="@+id/commentList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:minHeight="200dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline10"
                 app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:layout_constraintTop_toBottomOf="@+id/textView39" />
+
+            <TextView
+                android:id="@+id/noneContent"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:text="등록된 댓글이 없습니다."
+                android:background="#fff"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
             <TextView
@@ -387,7 +400,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="10dp"
         android:paddingRight="16dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="14dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -402,7 +415,7 @@
             app:srcCompat="@drawable/img_btn_close" />
 
         <EditText
-            android:id="@+id/inputContent"
+            android:id="@+id/inputComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -431,8 +444,8 @@
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/inputContent"
-            app:layout_constraintTop_toTopOf="@+id/inputContent" />
+            app:layout_constraintStart_toEndOf="@+id/inputComment"
+            app:layout_constraintTop_toTopOf="@+id/inputComment" />
     </android.support.constraint.ConstraintLayout>
 
 

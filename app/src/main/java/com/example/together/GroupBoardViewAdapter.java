@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import static com.example.together.StaticInit.loginUserId;
+
 public class GroupBoardViewAdapter extends RecyclerView.Adapter<GroupBoardViewAdapter.ItemViewHolder> {
 
     //속성(변수) 초기화
@@ -46,9 +48,9 @@ public class GroupBoardViewAdapter extends RecyclerView.Adapter<GroupBoardViewAd
         return listData.size();
     }
 
-    void addItem(int position, GroupBoardViewData data) {
+    void addItem(GroupBoardViewData data) {
         // 외부에서 item을 추가시킬 함수입니다.
-        listData.add(0, data);
+        listData.add(data);
     }
 
     void removeItem(int position) {
@@ -85,6 +87,11 @@ public class GroupBoardViewAdapter extends RecyclerView.Adapter<GroupBoardViewAd
             userName.setText(data.getUserName());
             commentDate.setText(data.getCommentDate());
             commentContent.setText(String.valueOf(data.getCommentContent()));
+
+            //로그인한 아메일과 작성자 이메일이 다를 경우, 수정버튼을 숨긴다.
+            if(!data.getUserEmail().equals(loginUserId)){
+                utilBtn.setVisibility(View.GONE);
+            }
 
 
 //            // 해당 리사이클러뷰 아이템을 클릭했을 경우

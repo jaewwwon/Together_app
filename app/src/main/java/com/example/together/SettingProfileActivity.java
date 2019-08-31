@@ -236,19 +236,18 @@ public class SettingProfileActivity extends AppCompatActivity implements EasyPer
                     return;
                 }
 
-                Log.e(TAG, "이름: " + inputName.getText().toString());
-                Log.e(TAG, "비밀번호: " + inputPassword.getText().toString());
-                Log.e(TAG, "프로필: " + profilePath);
-                Log.e(TAG, "연락처: " + userTelFirst.getText().toString() + "-" + userTelMiddle.getText().toString() + "-" + userTelLast.getText().toString());
-                Log.e(TAG, "생년월일: " + inputBirth.getText().toString());
-                Log.e(TAG, "지역: " + searchLocationBtn.getText().toString());
-                Log.e(TAG, "자기소개: " + inputIntro.getText().toString());
+//                Log.e(TAG, "이름: " + inputName.getText().toString());
+//                Log.e(TAG, "비밀번호: " + inputPassword.getText().toString());
+//                Log.e(TAG, "프로필: " + profilePath);
+//                Log.e(TAG, "연락처: " + userTelFirst.getText().toString() + "-" + userTelMiddle.getText().toString() + "-" + userTelLast.getText().toString());
+//                Log.e(TAG, "생년월일: " + inputBirth.getText().toString());
+//                Log.e(TAG, "지역: " + searchLocationBtn.getText().toString());
+//                Log.e(TAG, "자기소개: " + inputIntro.getText().toString());
 
 
                 //DB 저장
                 InsertData task = new InsertData();
                 //이름, 비밀번호, 프로필사진, 연락처 첫번째, 연락처 중간, 연락처 마지막, 생년월일, 지역, 자기소개, 회원이메일 순서
-                Log.e(TAG, "서버에 보내는 이미지 경로: " + profilePath);
                 task.execute("http://" + IP_ADDRESS + "/mypage/profile_check.php",
                         inputName.getText().toString(),
                         inputPassword.getText().toString(),
@@ -410,19 +409,21 @@ public class SettingProfileActivity extends AppCompatActivity implements EasyPer
 
                 inputName.setText(userName);
                 inputEmail.setText(userEmail);
-                inputBirth.setText(userBirth);
-                Log.e(TAG, "연락처 : " + userTel);
-                if (!userTel.equals("null") && userTel != null && !userTel.equals("")) {
+                if (!userBirth.equals("null") && !userBirth.equals("")) {
+                    inputBirth.setText(userBirth);
+                }
+//                Log.e(TAG, "연락처 : " + userTel);
+                if (!userTel.equals("null") && !userTel.equals("")) {
                     userTelFirst.setText(userTel.substring(0, 3));
                     userTelMiddle.setText(userTel.substring(3, 7));
                     userTelLast.setText(userTel.substring(7, 11));
                 }
 
-                if (!userLocation.equals("null") && userLocation != null && !userLocation.equals("")) {
+                if (!userLocation.equals("null") && !userLocation.equals("")) {
                     searchLocationBtn.setText(userLocation);
                 }
 
-                if (!userIntro.equals("null") && userIntro != null && !userIntro.equals("")) {
+                if (!userIntro.equals("null") && !userIntro.equals("")) {
                     inputIntro.setText(userIntro);
                 }
 
@@ -571,6 +572,7 @@ public class SettingProfileActivity extends AppCompatActivity implements EasyPer
         @Override
         protected String doInBackground(String... params) {
 
+            String postParameters = "";
             String serverURL = params[0]; //URL 주소값
             String userName = params[1]; //회원 이름
             String userPassword = params[2]; //회원 비밀번호
@@ -583,8 +585,18 @@ public class SettingProfileActivity extends AppCompatActivity implements EasyPer
             String userIntro = params[9]; //회원소개
             String userEmail = params[10]; //회원소개
 
-            //이름, 비밀번호, 프로필사진, 연락처 첫번째, 연락처 중간, 연락처 마지막, 생년월일, 지역, 자기소개, 회원이메일 순서
-            String postParameters = "userName=" + userName + "&userPassword=" + userPassword + "&userProfile=" + userProfile + "&userTel01=" + userTel01 + "&userTel02=" + userTel02 + "&userTel03=" + userTel03 + "&userBirth=" + userBirth + "&userLocation=" + userLocation + "&userIntro=" + userIntro + "&userEmail=" + userEmail;
+//            Log.e(TAG, "서버에 보내는 이미지 경로: " + userProfile);
+
+            //프로필을 변경하는 경우
+            if(userProfile != null){
+                //이름, 비밀번호, 프로필사진, 연락처 첫번째, 연락처 중간, 연락처 마지막, 생년월일, 지역, 자기소개, 회원이메일 순서
+                postParameters = "userName=" + userName + "&userPassword=" + userPassword + "&userProfile=" + userProfile + "&userTel01=" + userTel01 + "&userTel02=" + userTel02 + "&userTel03=" + userTel03 + "&userBirth=" + userBirth + "&userLocation=" + userLocation + "&userIntro=" + userIntro + "&userEmail=" + userEmail;
+            } else {
+            //프로필을 변경하지 않는 경우
+                //이름, 비밀번호, 연락처 첫번째, 연락처 중간, 연락처 마지막, 생년월일, 지역, 자기소개, 회원이메일 순서
+                postParameters = "userName=" + userName + "&userPassword=" + userPassword + "&userTel01=" + userTel01 + "&userTel02=" + userTel02 + "&userTel03=" + userTel03 + "&userBirth=" + userBirth + "&userLocation=" + userLocation + "&userIntro=" + userIntro + "&userEmail=" + userEmail;
+            }
+
 
             try {
 

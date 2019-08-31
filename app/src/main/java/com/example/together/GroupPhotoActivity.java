@@ -49,8 +49,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.example.together.StaticInit.PAGE_GROUP_HOST;
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.PAGE_GROUP_NAME;
+import static com.example.together.StaticInit.loginUserId;
 
 public class GroupPhotoActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
@@ -61,6 +63,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
     private static final int READ_REQUEST_CODE = 300;
     private static final String SERVER_PATH = "http://www.togetherme.tk/";
     private String jsonString; // json 데이터 파일
+    List<String> groupMemberList; //모임 멤버 정보 파싱 데이터 리스트
     List<String> photoList = new ArrayList<>(); //사진 정보 파싱 데이터 리스트
     static GroupPhotoAdapter groupPhotoAdapter; //모임 사진첩 어댑터
     private Uri uri;
@@ -78,7 +81,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_photo);
 
-        Log.e(TAG, "모임 index: " + PAGE_GROUP_INDEX);
+//        Log.e(TAG, "모임 index: " + PAGE_GROUP_INDEX);
 
         //초기화
         pageGroupTit = findViewById(R.id.pageGroupTit);
@@ -159,19 +162,17 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
             }
         });
 
-//        // 이미지 추가 버튼을 클릭했을 경우
-//        photoAddBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(GroupPhotoActivity.this, PopupPhotoAddActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
-//                overridePendingTransition(0, 0);
-//            }
-//        });
+        //모임 멤버 정보 JSON 가져오기
+        GetgroupMemberData groupMemberTask = new GetgroupMemberData();
+        groupMemberTask.execute("http://" + IP_ADDRESS + "/db/group_member.php", "");
 
 
-
+        //로그인한 이메일과 모임장의 이메일이 다를 경우에는 이미지 추가 버튼을 숨긴다.
+//        Log.e(TAG, "로그인 ID: " + loginUserId);
+//        Log.e(TAG, "모임장 ID: " + PAGE_GROUP_HOST);
+        if(!PAGE_GROUP_HOST.equals(loginUserId)){
+            photoAddBtn.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -232,7 +233,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-            Log.e(TAG, "response - " + result);
+//            Log.e(TAG, "response - " + result);
 
             if (result == null) {
                 Log.e(TAG, errorString);
@@ -557,5 +558,133 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
     protected void onPause() {
         super.onPause();
         overridePendingTransition(0, 0);
+    }
+
+    //모임 게시판 정보 JSON 가져오기
+    private class GetgroupMemberData extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(GroupPhotoActivity.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        // 에러가 있는 경우 에러메시지를 보여주고 아니면 JSON을 파싱하여 화면에 보여주는 scheduleResult 메소드를 호출합니다.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+//            Log.e(TAG, "response - " + result);
+//            Log.e(TAG, "response jsonString - " + jsonString);
+
+            if (result == null) {
+                Log.e(TAG, errorString);
+            } else {
+
+                jsonString = result;
+                groupMemberResult();
+
+
+                //로그인한 이메일과 모임장 또는 모임가입 회원의 이메일이 다를 경우에는 게시글 추가 버튼을 나타낸다.
+                if(PAGE_GROUP_HOST.equals(loginUserId) || groupMemberList.contains(loginUserId)){
+                    //
+                } else {
+                    Toast.makeText(GroupPhotoActivity.this, "모임멤버만 이용할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+        }
+
+        // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX;
+
+            try {
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+//                Log.e(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                } else {
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.e(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+    }
+
+    //모임 게시판 정보 JSO 파싱 후, 데이터 저장하기
+    private void groupMemberResult() {
+
+        groupMemberList = new ArrayList<>();
+
+        String TAG_JSON = "groupMember"; //멤버 이메일
+        String TAG_MEMBER_USER = "memberUser"; //멤버 이메일
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+                JSONObject item = jsonArray.getJSONObject(i);
+
+                String memberEmail = item.getString(TAG_MEMBER_USER);
+                groupMemberList.add(memberEmail);
+            }
+
+        } catch (JSONException e) {
+
+            Log.e(TAG, "showResult : ", e);
+        }
+
     }
 }

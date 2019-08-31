@@ -5,6 +5,7 @@ public class GroupBoardViewData {
     private String userName; //댓글 작성자 이름
     private String commentDate; //댓글 작성일
     private String commentContent; //댓글 내용
+    private String userEmail; //댓글 내용
 
     public String getUserProfile() {
         return userProfile;
@@ -36,5 +37,13 @@ public class GroupBoardViewData {
 
     public void setCommentContent(String commentContent) {
         this.commentContent = commentContent;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

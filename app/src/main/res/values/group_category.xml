@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="category">
+    <string-array name="category_host">
         <item>공지사항</item>
+        <item>자유글</item>
+        <item>관심사공유</item>
+        <item>정모후기</item>
+        <item>가입인사</item>
+    </string-array>
+    <string-array name="category">
         <item>자유글</item>
         <item>관심사공유</item>
         <item>정모후기</item>

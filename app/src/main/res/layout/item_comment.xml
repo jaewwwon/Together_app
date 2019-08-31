@@ -143,6 +143,16 @@
             app:layout_constraintTop_toTopOf="@+id/commentDateRe"
             app:srcCompat="@drawable/img_btn_more" />
 
+        <!--작성자 이메일-->
+        <TextView
+            android:id="@+id/userEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/userProfileRe"
+            app:layout_constraintTop_toBottomOf="@+id/userNameRe" />
+
     </android.support.constraint.ConstraintLayout>
 
 

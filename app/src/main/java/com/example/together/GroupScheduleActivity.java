@@ -34,10 +34,12 @@ import java.util.Locale;
 
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.PAGE_GROUP_NAME;
+import static com.example.together.StaticInit.PAGE_GROUP_HOST;
 import static com.example.together.StaticInit.doDiffOfDate;
 import static com.example.together.StaticInit.getDateFormat;
 import static com.example.together.StaticInit.getDateWeek;
 import static com.example.together.StaticInit.getToday;
+import static com.example.together.StaticInit.loginUserId;
 
 public class GroupScheduleActivity extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
     TextView pageGroupTit; //페이지 상단 모임 이름
     TextView infoTab; //정보탭 버튼
     TextView scheduleTab; //일정탭 버튼
-    TextView boardTab; //게시판탭 버튼a
+    TextView boardTab; //게시판탭 버튼
     TextView photoTab; //사진첩탭 버튼
     TextView chatTab; //채팅탭 버튼
     ImageView scheduleAddBtn; //일정 추가 버튼
@@ -77,10 +79,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
         scheduleAddBtn = findViewById(R.id.scheduleAddBtn);
         noneContent = findViewById(R.id.noneContent);
 
-        //TODO 일정 추가 버튼 조건에 따라 보이기
-//        if(모임장일 경우에만 버튼 표시){
-//            scheduleAddBtn.setVisibility(View.GONE);
-//        }
 
         //정보탭 버튼을 클릭했을 경우
         infoTab.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +149,6 @@ public class GroupScheduleActivity extends AppCompatActivity {
         GetGroupIntoData groupInfoTask = new GetGroupIntoData();
         groupInfoTask.execute("http://" + IP_ADDRESS + "/db/group_info.php", "");
 
-
         //일정 참석 멤버 정보 JSON 파일 가져오기
         GetScheduleAttendData attendMemberTask = new GetScheduleAttendData();
         attendMemberTask.execute("http://" + IP_ADDRESS + "/db/schedule_attend.php", "");
@@ -162,6 +159,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         //일정 정보 JSON 파일 가져오기
         GetScheduleData scheduleTask = new GetScheduleData();
         scheduleTask.execute("http://" + IP_ADDRESS + "/db/group_schedule.php", String.valueOf(PAGE_GROUP_INDEX));
+
     }
 
     //일정 목록 초기화
@@ -225,7 +223,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-            Log.e(TAG, "response - " + result);
+//            Log.e(TAG, "response - " + result);
 
             if (result == null) {
                 Log.e(TAG, errorString);
@@ -244,7 +242,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
             String groupIdx = params[1];
 //            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday() + "' ORDER BY sc_date DESC";
 //            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY sc_date DESC LIMIT 0, " + PAGE_LOAD_NUM;
-            Log.e(TAG, "요청 아이템 수: " + PAGE_LOAD_NUM);
+//            Log.e(TAG, "요청 아이템 수: " + PAGE_LOAD_NUM);
             String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY sc_date DESC" + "&limitTxt=" + PAGE_LOAD_NUM;
 
             try {
@@ -483,6 +481,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
 
         String TAG_JSON = "groupInfo";
         String TAG_GROUP_NAME = "groupName"; //모임 이름
+        String TAG_GROUP_HOST = "groupHost"; //모임장
 
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -493,10 +492,19 @@ public class GroupScheduleActivity extends AppCompatActivity {
                 JSONObject item = jsonArray.getJSONObject(i);
 
                 String groupName = item.getString(TAG_GROUP_NAME);
+                String groupHost = item.getString(TAG_GROUP_HOST);
 
                 pageGroupTit.setText(groupName);
                 PAGE_GROUP_NAME = groupName;
+                PAGE_GROUP_HOST = groupHost;
 
+            }
+
+            //로그인한 이메일과 모임장의 이메일이 다를 경우에는 일정추가버튼을 숨긴다.
+//            Log.e(TAG, "로그인 ID: " + loginUserId);
+//            Log.e(TAG, "모임장 ID: " + PAGE_GROUP_HOST);
+            if(!PAGE_GROUP_HOST.equals(loginUserId)){
+                scheduleAddBtn.setVisibility(View.GONE);
             }
 
         } catch (JSONException e) {

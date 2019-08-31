@@ -8,6 +8,7 @@ public class GroupBoardData {
     private String boardDate; //게시글 작성일
     private int boardView; //게시글 조회수
     private int boardIdx; //게시글 index
+    private int boardComment; //게시글 댓글 수
 
     public String getBoardCategory() {
         return boardCategory;
@@ -63,5 +64,13 @@ public class GroupBoardData {
 
     public void setBoardIdx(int boardIdx) {
         this.boardIdx = boardIdx;
+    }
+
+    public int getBoardComment() {
+        return boardComment;
+    }
+
+    public void setBoardComment(int boardComment) {
+        this.boardComment = boardComment;
     }
 }

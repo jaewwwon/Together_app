@@ -132,7 +132,7 @@
                 android:layout_marginRight="5dp"
                 android:text="일정장소"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/textView22"
+                app:layout_constraintEnd_toStartOf="@+id/attendButton"
                 app:layout_constraintStart_toEndOf="@+id/imageView4"
                 app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
@@ -178,7 +178,7 @@
                 app:layout_constraintTop_toTopOf="@+id/scheduleMember" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/attendButton"
                 android:layout_width="44dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="8dp"
@@ -217,8 +217,8 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/textView22"
-                app:layout_constraintStart_toStartOf="@+id/textView22"
+                app:layout_constraintEnd_toEndOf="@+id/attendButton"
+                app:layout_constraintStart_toStartOf="@+id/attendButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/img_btn_more" />
 

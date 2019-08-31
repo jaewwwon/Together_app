@@ -33,8 +33,7 @@ public class ManageJoinAdapter extends RecyclerView.Adapter<ManageJoinAdapter.It
     //속성(변수) 초기화
     Context context;
     private static String TAG = "ManageJoinAdapter";
-    private ArrayList<ManageJoinData> listData = new ArrayList<>(); //adapter에 들어갈 list
-
+    public ArrayList<ManageJoinData> listData = new ArrayList<>(); //adapter에 들어갈 list
 
     @NonNull
     @Override

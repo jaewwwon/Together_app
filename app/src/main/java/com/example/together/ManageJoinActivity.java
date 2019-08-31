@@ -4,15 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,10 +24,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.getDateFormat;
 import static com.example.together.StaticInit.loginUserId;
 
@@ -47,6 +42,7 @@ public class ManageJoinActivity extends AppCompatActivity {
     TextView settingNav; //하단메뉴 - 설정
     TextView groupJoinBtn; //내가 가입한 모임 탭 버튼
     TextView groupCreateBtn; //내가 만든 모임 탭 버튼
+    TextView noneContent; //등록된 일정이 없을경우 표시되는 문구
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +55,7 @@ public class ManageJoinActivity extends AppCompatActivity {
         settingNav = findViewById(R.id.settingNav);
         groupJoinBtn = findViewById(R.id.groupJoinBtn);
         groupCreateBtn = findViewById(R.id.groupCreateBtn);
+        noneContent = findViewById(R.id.noneContent);
 
         //하단메뉴 - 홈 버튼을 클릭했을 경우
         homeNav.setOnClickListener(new View.OnClickListener() {
@@ -174,9 +171,9 @@ public class ManageJoinActivity extends AppCompatActivity {
         // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
         @Override
         protected String doInBackground(String... params) {
-
+//            Log.e(TAG, "로그인 ID: " + loginUserId);
             String serverURL = params[0];
-            String postParameters = "userLoginEmail=" + loginUserId + "&joinTxt=" + "LEFT JOIN group_info ON group_member.group_idx = group_info.group_idx" + "&whereTxt=" + "ORDER BY member_idx DESC";
+            String postParameters = "userLoginEmail=" + loginUserId + "&joinGroupInfo=" + "LEFT JOIN group_info ON group_member.group_idx = group_info.group_idx";
 
             try {
                 URL url = new URL(serverURL);
@@ -234,7 +231,6 @@ public class ManageJoinActivity extends AppCompatActivity {
     private void groupResult() {
 
         String TAG_JSON = "groupMember";
-
         String TAG_GROUP_IDX = "groupIdx"; //모임 index
         String TAG_MEMBER_DATE = "memberDate"; //모임 가입일
         String TAG_GROUP_CATEGORY = "groupCategory"; //모임 카테고리
@@ -291,6 +287,12 @@ public class ManageJoinActivity extends AppCompatActivity {
 
             // adapter의 값이 변경되었다는 것을 알려줍니다.
             manageJoinAdapter.notifyDataSetChanged();
+
+            if(manageJoinAdapter.listData.size() == 0){
+                noneContent.setVisibility(View.VISIBLE);
+            } else {
+                noneContent.setVisibility(View.GONE);
+            }
 
         } catch (JSONException e) {
 

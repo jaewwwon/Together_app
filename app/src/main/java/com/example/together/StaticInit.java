@@ -15,7 +15,7 @@ public class StaticInit extends AppCompatActivity {
 
     public static int PAGE_GROUP_INDEX; //현재 페이지의 모임 index
     public static String PAGE_GROUP_NAME; //현재 페이지의 모임 이름
-
+    public static String PAGE_GROUP_HOST; //현재 페이지의 모임장
     public static String IP_ADDRESS = "13.125.221.240";
     public static String loginUserId = "";
     public static String loginUserName = "";

@@ -47,6 +47,7 @@ public class ManageCreateActivity extends AppCompatActivity {
     TextView settingNav; //하단메뉴 - 설정
     TextView groupJoinBtn; //내가 가입한 모임 탭 버튼
     TextView groupCreateBtn; //내가 만든 모임 탭 버튼
+    TextView noneContent; //등록된 일정이 없을경우 표시되는 문구
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ManageCreateActivity extends AppCompatActivity {
         settingNav = findViewById(R.id.settingNav);
         groupJoinBtn = findViewById(R.id.groupJoinBtn);
         groupCreateBtn = findViewById(R.id.groupCreateBtn);
+        noneContent = findViewById(R.id.noneContent);
 
         //하단메뉴 - 홈 버튼을 클릭했을 경우
         homeNav.setOnClickListener(new View.OnClickListener() {
@@ -285,14 +287,18 @@ public class ManageCreateActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-
-
                 // 각 값이 들어간 data를 adapter에 추가합니다.
                 manageJoinAdapter.addItem(data);
             }
 
             // adapter의 값이 변경되었다는 것을 알려줍니다.
             manageJoinAdapter.notifyDataSetChanged();
+
+            if(manageJoinAdapter.listData.size() == 0){
+                noneContent.setVisibility(View.VISIBLE);
+            } else {
+                noneContent.setVisibility(View.GONE);
+            }
 
         } catch (JSONException e) {
 

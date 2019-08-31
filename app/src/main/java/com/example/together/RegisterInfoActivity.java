@@ -106,28 +106,6 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
                 // 사용자 정보 가져오기
                 GetUserData userTask = new GetUserData();
                 userTask.execute("http://" + IP_ADDRESS + "/db/user.php", "");
-
-                //핸들러를 사용하여 사용자 정보를 가져오는 시간동안 다음에 수행되어야 할 작업들을 delay시킨다.
-//                Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        if (!inputEmail.getText().toString().matches("^[A-z|0-9]([A-z|0-9]*)(@)([A-z]*)(\\.)([A-z]*)$")) {
-//                            Toast.makeText(RegisterInfoActivity.this, "이메일을 형식을 확인하세요.", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        } else if (userInfoList.contains(inputEmail.getText().toString())) {
-//                            Toast.makeText(RegisterInfoActivity.this, "이미 가입된 이메일입니다.", Toast.LENGTH_SHORT).show();
-//                            return;
-//                        }
-//
-//                        isCheck = true;
-//                        Toast.makeText(RegisterInfoActivity.this, "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                }, 1000);
-
-
             }
         });
 
@@ -307,34 +285,40 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
             super.onPostExecute(result);
 
             progressDialog.dismiss();
-//            mTextViewResult.setText(result);
 //            Log.e(TAG, "POST response  - " + result);
         }
-
 
         @Override
         protected String doInBackground(String... params) {
 
+            String postParameters;
             String serverURL = params[0]; //URL 주소값
             String userName = params[1]; //회원 이름
             String userEmail = params[2]; //회원 이메일
             String userPassword = params[3]; //회원 비밀번호
             String userProfilePath = params[4]; //회원 프로필경로로
 
-            //이름, 이메일, 비밀번호, 프로필사진 순서
-            String postParameters = "userName=" + userName + "&userEmail=" + userEmail + "&userPassword=" + userPassword + "&userProfilePath=" + userProfilePath;
+            //프로필 사진을 등록했을 경우
+            if (userProfilePath != null) {
+                //이름, 이메일, 비밀번호, 프로필사진 순서
+                postParameters = "userName=" + userName + "&userEmail=" + userEmail + "&userPassword=" + userPassword + "&userProfilePath=" + userProfilePath;
+            }
+            //프로필 사진을 등록하지 않았을 경우
+            else {
+
+                //이름, 이메일, 비밀번호 순서
+                postParameters = "userName=" + userName + "&userEmail=" + userEmail + "&userPassword=" + userPassword;
+            }
+
 
             try {
-
                 URL url = new URL(serverURL);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
 
                 httpURLConnection.setReadTimeout(5000);
                 httpURLConnection.setConnectTimeout(5000);
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.connect();
-
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 outputStream.write(postParameters.getBytes("UTF-8"));

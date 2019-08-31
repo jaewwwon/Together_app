@@ -62,6 +62,7 @@ public class GroupBoardAdapter extends RecyclerView.Adapter<GroupBoardAdapter.It
         private TextView boardDate; //게시글 작성일
         private TextView boardView; //게시글 조회수
         private TextView boardIdx; //게시글 index
+        private TextView boardComment; //게시글 댓글수
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +72,7 @@ public class GroupBoardAdapter extends RecyclerView.Adapter<GroupBoardAdapter.It
             boardDate = itemView.findViewById(R.id.boardDate);
             boardView = itemView.findViewById(R.id.boardView);
             boardIdx = itemView.findViewById(R.id.boardIdx);
+            boardComment = itemView.findViewById(R.id.boardComment);
         }
 
         void onBind(final GroupBoardData data) {
@@ -79,6 +81,7 @@ public class GroupBoardAdapter extends RecyclerView.Adapter<GroupBoardAdapter.It
             boardDate.setText(data.getBoardDate());
             boardView.setText(String.valueOf(data.getBoardView()));
             boardIdx.setText(String.valueOf(data.getBoardIdx()));
+            boardComment.setText(String.valueOf(data.getBoardComment()));
 
 
             // 해당 리사이클러뷰 아이템을 클릭했을 경우

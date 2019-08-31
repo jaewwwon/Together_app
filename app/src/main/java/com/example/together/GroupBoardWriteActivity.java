@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import static com.example.together.StaticInit.PAGE_GROUP_HOST;
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.getDateFormat;
 import static com.example.together.StaticInit.getToday;
@@ -139,10 +140,18 @@ public class GroupBoardWriteActivity extends AppCompatActivity {
     }
 
     public void setViews() {
-        // 스피너 어댑터를 초기화한다
-        categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, R.layout.textview);
+
+        if(PAGE_GROUP_HOST.equals(loginUserId)){
+            // 스피너 어댑터를 초기화한다
+            categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category_host, R.layout.textview);
+        } else {
+            // 스피너 어댑터를 초기화한다
+            categoryAdapter = ArrayAdapter.createFromResource(this, R.array.category, R.layout.textview);
+        }
+
         //해당 스피너에 어댑터를 연결한다
         boardCategory.setAdapter(categoryAdapter);
+
         //초기 기본 선택값을 지정한다.
         boardCategory.setSelection(0);
     }
