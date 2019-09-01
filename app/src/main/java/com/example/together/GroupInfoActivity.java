@@ -167,7 +167,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                 // 제목셋팅
-                alertDialogBuilder.setTitle("모임 가입하기");
+                alertDialogBuilder.setTitle("알림");
 
                 // AlertDialog 셋팅
                 alertDialogBuilder
@@ -212,7 +212,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                 // 제목셋팅
-                alertDialogBuilder.setTitle("모임 탈퇴하기");
+                alertDialogBuilder.setTitle("알림");
 
                 // AlertDialog 셋팅
                 alertDialogBuilder

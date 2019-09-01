@@ -9,21 +9,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
 public class GroupPhotoSliderAdapter extends PagerAdapter {
 
-    private int[] images = {R.drawable.img_bg_default_small,
-            R.drawable.img_profile,
-            R.drawable.common_full_open_on_phone};
+    private ArrayList<String> images;
     private LayoutInflater inflater;
     private Context context;
 
-    public GroupPhotoSliderAdapter(Context context){
+
+    public GroupPhotoSliderAdapter(Context context, ArrayList<String> images) {
         this.context = context;
+        this.images = images;
     }
 
     @Override
     public int getCount() {
-        return images.length;
+        return images.size();
     }
 
     @Override
@@ -33,14 +37,15 @@ public class GroupPhotoSliderAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        inflater = (LayoutInflater)context.getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
+
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.item_slider, container, false);
-        ImageView imageView = (ImageView)v.findViewById(R.id.slider_img);
-//        TextView textView = (TextView)v.findViewById(R.id.textView);
-        imageView.setImageResource(images[position]);
-//        String text = (position + 1) + "번째 이미지";
-//        textView.setText(text);
+        ImageView imageView = v.findViewById(R.id.slider_img);
+
+        Glide.with(context)
+                .load(images.get(position))
+                .into(imageView);
+
         container.addView(v);
         return v;
     }

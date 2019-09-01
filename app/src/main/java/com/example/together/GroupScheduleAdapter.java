@@ -1,21 +1,30 @@
 package com.example.together;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,13 +34,16 @@ import java.util.Locale;
 
 import static com.example.together.GroupScheduleActivity.diffOfDate;
 import static com.example.together.StaticInit.PAGE_GROUP_HOST;
+import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.loginUserId;
 
 public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdapter.ItemViewHolder> {
 
     //속성(변수) 초기화
-    Context context;
+    private Context context;
     private static String TAG = "GroupScheduleAdapter";
+    private static String IP_ADDRESS = "13.125.221.240"; //JSON 데이터를 가져올 IP주소
+    private String jsonString; // json 데이터 파일
     public ArrayList<SearchScheduleData> listData = new ArrayList<>(); //adapter에 들어갈 list
 
     @NonNull
@@ -145,8 +157,47 @@ public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdap
             //일정 참석 버튼을 눌렀을 경우
             attendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
 
+                    // 제목셋팅
+                    alertDialogBuilder.setTitle("알림");
+
+                    // AlertDialog 셋팅
+                    alertDialogBuilder
+                            .setMessage("해당 일정에 참석하시겠습니까?")
+                            .setCancelable(false)
+                            .setPositiveButton("참석하기",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //모임 정보 JSON 파일 가져오기
+//                                            ScheduleAttendData attendTask = new ScheduleAttendData();
+//                                            // 모임 index번호, 일정 index, 로그인 이메일 순서
+//                                            attendTask.execute("http://" + IP_ADDRESS + "/group/schedule_attend.php",
+//                                                    String.valueOf(data.getGroupIdx()),
+//                                                    String.valueOf(data.getScheduleIdx()),
+//                                                    loginUserId);
+
+                                            Intent intent = new Intent(v.getContext(), GroupScheduleActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            v.getContext().startActivity(intent);
+                                            // 다이얼로그를 종료한다
+                                            dialog.cancel();
+                                        }
+                                    })
+                            .setNegativeButton("취소",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            // 다이얼로그를 종료한다
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    // 다이얼로그 생성
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+
+                    // 다이얼로그 보여주기
+                    alertDialog.show();
                 }
             });
 
@@ -169,6 +220,104 @@ public class GroupScheduleAdapter extends RecyclerView.Adapter<GroupScheduleAdap
                         v.getContext().startActivity(intent);
                     }
                 });
+            }
+
+        }
+    }
+
+    //일정 참석 정보 보내기
+    private class ScheduleAttendData extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(context,
+                    "Please Wait", null, true, true);
+        }
+
+
+        // 에러가 있는 경우 에러메시지를 보여주고 아니면 JSON을 파싱하여 화면에 보여주는 scheduleResult 메소드를 호출합니다.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+//            Log.e(TAG, "response - " + result);
+
+            if (result == null) {
+                Log.e(TAG, errorString);
+            } else {
+                jsonString = result;
+            }
+        }
+
+        // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String groupIdx = params[1];
+            String scIdx = params[2];
+            String memberEmail = params[3];
+
+            // 모임 index번호, 일정 index, 로그인 이메일 순서
+            String postParameters = "groupIdx=" + groupIdx + "&scIdx=" + scIdx + "&memberEmail=" + memberEmail;
+
+            try {
+
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+//                Log.e(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                } else {
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.e(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
             }
 
         }

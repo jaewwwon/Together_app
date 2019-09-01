@@ -64,7 +64,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
     private static final String SERVER_PATH = "http://www.togetherme.tk/";
     private String jsonString; // json 데이터 파일
     List<String> groupMemberList; //모임 멤버 정보 파싱 데이터 리스트
-    List<String> photoList = new ArrayList<>(); //사진 정보 파싱 데이터 리스트
+    List<String> photoList; //사진 정보 파싱 데이터 리스트
     static GroupPhotoAdapter groupPhotoAdapter; //모임 사진첩 어댑터
     private Uri uri;
     TextView pageGroupTit; //페이지 상단 모임 이름
@@ -170,7 +170,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
         //로그인한 이메일과 모임장의 이메일이 다를 경우에는 이미지 추가 버튼을 숨긴다.
 //        Log.e(TAG, "로그인 ID: " + loginUserId);
 //        Log.e(TAG, "모임장 ID: " + PAGE_GROUP_HOST);
-        if(!PAGE_GROUP_HOST.equals(loginUserId)){
+        if (!PAGE_GROUP_HOST.equals(loginUserId)) {
             photoAddBtn.setVisibility(View.GONE);
         }
     }
@@ -202,12 +202,12 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
             @Override
             public void onItemClick(View v, int position, GroupPhotoData data) {
 
-                Log.e(TAG, "불러온 사진 경로: " + photoList);
+                Log.e(TAG, "사진 총 개수: " + photoList.size());
                 // 아이템 클릭 이벤트를 Activity에서 처리
-                    Intent intent = new Intent(GroupPhotoActivity.this, GroupPhotoSliderActivity.class);
-//                    intent.putExtra("placeName", data.getPlaceName());
-//                    intent.putExtra("placeAddress", data.getPlaceAddress());
-                    startActivity(intent);
+                Intent intent = new Intent(GroupPhotoActivity.this, GroupPhotoSliderActivity.class);
+                intent.putStringArrayListExtra("photoListOri", (ArrayList<String>) photoList); //사진 정보 리스트
+                intent.putExtra("photoUrlOri", data.getGroupPhoto()); //사진 경로
+                startActivity(intent);
             }
         });
     }
@@ -306,6 +306,8 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
     //모임 사진진 정보 JSON 파싱 후, 데이터 저장하기
     private void groupPhotoResult() {
 
+        photoList = new ArrayList<>();
+
         String TAG_JSON = "groupGallery";
         String TAG_GALLERY_IDX = "galleryIdx"; //사진 index
         String TAG_GALLERY_IMG = "galleryImg"; //사진첩 사진
@@ -340,7 +342,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
             // adapter의 값이 변경되었다는 것을 알려줍니다.
             groupPhotoAdapter.notifyDataSetChanged();
 
-            if(groupPhotoAdapter.listData.size() == 0){
+            if (groupPhotoAdapter.listData.size() == 0) {
                 noneContent.setVisibility(View.VISIBLE);
             } else {
                 noneContent.setVisibility(View.GONE);
@@ -384,7 +386,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
 //                        Toast.makeText(GroupPhotoActivity.this, "Success_onResponse " + response.body().getSuccess(), Toast.LENGTH_LONG).show();
 //                        Log.e(TAG, "저장된 이미지경로 : " + response.body().getSuccess());
 
-                        if(response.body().getSuccess().equals("error uploading file")){
+                        if (response.body().getSuccess().equals("error uploading file")) {
                             Toast.makeText(GroupPhotoActivity.this, "이미지 업로드를 실패했습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             String photoPath = SERVER_PATH + response.body().getSuccess();
@@ -396,7 +398,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
                             groupPhotoAdapter.addItem(0, data);
                             groupPhotoAdapter.notifyDataSetChanged();
 
-                            if(groupPhotoAdapter.listData.size() == 0){
+                            if (groupPhotoAdapter.listData.size() == 0) {
                                 noneContent.setVisibility(View.VISIBLE);
                             } else {
                                 noneContent.setVisibility(View.GONE);
@@ -593,7 +595,7 @@ public class GroupPhotoActivity extends AppCompatActivity implements EasyPermiss
 
 
                 //로그인한 이메일과 모임장 또는 모임가입 회원의 이메일이 다를 경우에는 게시글 추가 버튼을 나타낸다.
-                if(PAGE_GROUP_HOST.equals(loginUserId) || groupMemberList.contains(loginUserId)){
+                if (PAGE_GROUP_HOST.equals(loginUserId) || groupMemberList.contains(loginUserId)) {
                     //
                 } else {
                     Toast.makeText(GroupPhotoActivity.this, "모임멤버만 이용할 수 있습니다.", Toast.LENGTH_SHORT).show();

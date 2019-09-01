@@ -160,9 +160,10 @@ public class SearchLocationActivity extends FragmentActivity implements OnMapRea
 
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng initLocation = new LatLng(37.551307, 126.988244);
+        mMap.addMarker(new MarkerOptions().position(initLocation).title("N서울타워"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(initLocation));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initLocation, 15));
     }
 
     @Override
