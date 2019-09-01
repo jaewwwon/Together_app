@@ -79,6 +79,11 @@
         <!-- 일정 전체보기 화면 -->
         <activity android:name=".SearchScheduleActivity" />
 
+        <!-- 일정 참석멤버 정보 화면 -->
+        <activity
+            android:name=".PopupAttendMemberActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
         <!-- 모임 전체보기 화면 -->
         <activity android:name=".SearchGroupActivity" />
 

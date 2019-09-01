@@ -170,7 +170,7 @@ public class GroupScheduleActivity extends AppCompatActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // 스크롤 방향 설정 VERTICAL or HORIZONTAL
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        groupScheduleAdapter = new GroupScheduleAdapter();
+        groupScheduleAdapter = new GroupScheduleAdapter(GroupScheduleActivity.this);
         recyclerView.setAdapter(groupScheduleAdapter);
 
         // Pagination
