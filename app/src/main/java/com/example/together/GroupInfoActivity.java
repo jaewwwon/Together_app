@@ -440,7 +440,8 @@ public class GroupInfoActivity extends AppCompatActivity {
                     } else {
                         hostIntro.setText(item.getString(TAG_USER_INTRO));
                     }
-                    if (item.getString(TAG_USER_PROFILE).equals("null")) {
+
+                    if (item.getString(TAG_USER_PROFILE).equals("null") || item.getString(TAG_USER_PROFILE).length() == 0 || item.getString(TAG_USER_PROFILE).equals(" ")) {
                         Glide.with(this)
                                 .load("http://www.togetherme.tk/static/images/icon_profile.png")
                                 .override(500, 500)
@@ -604,7 +605,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                     data.setUserIntro(userIntro);
                 }
 
-                if (userProfile.equals("null") || userProfile.equals("") || userProfile.equals(" ")) {
+                if (userProfile.equals("null") || userProfile.length() == 0 || userProfile.equals(" ")) {
                     data.setUserProfile("http://www.togetherme.tk/static/images/icon_profile.png");
                 } else {
                     data.setUserProfile(userProfile);

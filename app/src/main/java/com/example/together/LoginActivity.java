@@ -57,15 +57,6 @@ public class LoginActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.registerButton);
         loginButton = findViewById(R.id.loginButton);
 
-
-        // 인텐트값 넘겨받기
-        Intent intent = getIntent();
-        String userEmailKey = intent.getStringExtra("userEmailOri"); // 가입한 Email 값
-
-        //가입한 이메일주소를 이메일란에 저장한다.
-        inputEmail.setText(userEmailKey);
-
-
         //자동로그인 여부
         //SharedPreferences에 저장된 로그인 정보를 전역변수에 저장한다.
         SharedPreferences preferences = getSharedPreferences("sFile", 0);
@@ -74,6 +65,16 @@ public class LoginActivity extends AppCompatActivity {
 
         inputEmail.setText(autoLoginId);
         inputPassword.setText(autoLoginPassword);
+
+
+        // 인텐트값 넘겨받기
+        Intent intent = getIntent();
+        String userEmailKey = intent.getStringExtra("userEmailOri"); // 가입한 Email 값
+
+        if(userEmailKey != null){
+            //가입한 이메일주소를 이메일란에 저장한다.
+            inputEmail.setText(userEmailKey);
+        }
 
         if(autoLoginId !=null && autoLoginPassword != null) {
             if(autoLoginId.equals(inputEmail.getText().toString()) && autoLoginPassword.equals(inputPassword.getText().toString())) {

@@ -298,17 +298,7 @@ public class RegisterInfoActivity extends AppCompatActivity implements EasyPermi
             String userPassword = params[3]; //회원 비밀번호
             String userProfilePath = params[4]; //회원 프로필경로로
 
-            //프로필 사진을 등록했을 경우
-            if (userProfilePath != null) {
-                //이름, 이메일, 비밀번호, 프로필사진 순서
-                postParameters = "userName=" + userName + "&userEmail=" + userEmail + "&userPassword=" + userPassword + "&userProfilePath=" + userProfilePath;
-            }
-            //프로필 사진을 등록하지 않았을 경우
-            else {
-
-                //이름, 이메일, 비밀번호 순서
-                postParameters = "userName=" + userName + "&userEmail=" + userEmail + "&userPassword=" + userPassword;
-            }
+            postParameters = "userName=" + userName + "&userEmail=" + userEmail + "&userPassword=" + userPassword + "&userProfilePath=" + userProfilePath;
 
 
             try {
