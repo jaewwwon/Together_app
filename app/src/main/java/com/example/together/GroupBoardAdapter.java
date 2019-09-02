@@ -43,9 +43,14 @@ public class GroupBoardAdapter extends RecyclerView.Adapter<GroupBoardAdapter.It
         return listData.size();
     }
 
-    void addItem(int position, GroupBoardData data) {
+    void addFirstItem(int position, GroupBoardData data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(0, data);
+    }
+
+    void addItem(GroupBoardData data) {
+        // 외부에서 item을 추가시킬 함수입니다.
+        listData.add(data);
     }
 
     void removeItem(int position) {

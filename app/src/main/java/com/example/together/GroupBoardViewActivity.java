@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -45,7 +46,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
     private static String TAG = "GroupBoardViewActivity";
     private static String IP_ADDRESS = "13.125.221.240"; //JSON 데이터를 가져올 IP주소
     private String jsonString; // json 데이터 파일
-    private GroupBoardViewAdapter groupBoardViewAdapter; //게시판 어댑터
+    static GroupBoardViewAdapter groupBoardViewAdapter; //게시판 어댑터
     private ArrayList<GroupBoardViewData> listData;
     //전달받은 intent 값 저장
     int itemPosition; //아이템 위치값
@@ -71,6 +72,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
     ImageView closeButton; //댓글 작성 영역 닫기 버튼
     EditText inputComment; //댓글 작성란
     Button commentSubmit; //댓글 작성 버튼
+    Button commentModifyBtn; //댓글 수정 버튼
     TextView noneContent; //댓글이 없을경우 보여주는 문구
 
 
@@ -101,6 +103,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         closeButton = findViewById(R.id.closeButton);
         inputComment = findViewById(R.id.inputComment);
         commentSubmit = findViewById(R.id.commentSubmit);
+        commentModifyBtn = findViewById(R.id.commentModifyBtn);
         noneContent = findViewById(R.id.noneContent);
 
         //페이지 모임 이름 설정
@@ -216,6 +219,12 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         commentSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (inputComment.getText().toString().length() == 0) {
+                    Toast.makeText(GroupBoardViewActivity.this, "댓글 내용을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 //댓글 작성 정보 보내기
                 CommentWriteData commentTask = new CommentWriteData();
                 //작성자 이메일, 댓글내용, 게시글 index 순서
@@ -260,11 +269,101 @@ public class GroupBoardViewActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 5000:
                     finish();
+                    break;
+                case 6000:
+
+                    Log.e(TAG, "수정,삭제 팝업 요청");
+
+                    // 댓글 작성 영역 활성화
+                    commentArea.setVisibility(View.VISIBLE);
+
+                    // 댓글 수정 버튼 활성화
+                    commentModifyBtn.setVisibility(View.VISIBLE);
+
+                    Intent intent = getIntent();
+                    final int itemPositionKey = data.getIntExtra("itemPositionOri", 0); //아이템 위치값
+                    final int commIdxKey = data.getIntExtra("commIdxOri", 0); //댓글 index
+                    final String commNameKey = data.getStringExtra("commNameOri"); //댓글 내용
+                    final String commEmailKey = data.getStringExtra("commEmailOri"); //댓글 내용
+                    final String commProfileKey = data.getStringExtra("commProfileOri"); //댓글 내용
+                    final String commDateKey = data.getStringExtra("commDateOri"); //댓글 내용
+                    String commContentKey = data.getStringExtra("commContentOri"); //댓글 내용
+
+                    inputComment.setText(commContentKey);
+
+
+                    //댓글 수정 버튼을 눌렀을 경우
+                    commentModifyBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (inputComment.getText().toString().length() == 0) {
+                                Toast.makeText(GroupBoardViewActivity.this, "댓글 내용을 입력하세요.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            //리사이클러뷰 저장
+                            // 각 List의 값들을 data 객체에 set 해줍니다.
+                            GroupBoardViewData data = new GroupBoardViewData();
+
+                            data.setCommentIdx(commIdxKey);
+
+                            if (commNameKey.equals("null") || commNameKey.equals("") || commNameKey.equals(" ")) {
+                                data.setUserName("탈퇴회원"); //게시글 작성자 이름
+                            } else {
+                                data.setUserName(commNameKey); //댓글 작성자 이름
+                                data.setUserEmail(commEmailKey); //게시글 작성자 이메일
+                            }
+
+                            if (commProfileKey.equals("null") || commProfileKey.equals("") || commProfileKey.equals(" ")) {
+                                data.setUserProfile("http://www.togetherme.tk/static/images/icon_profile.png");
+                            } else {
+                                data.setUserProfile(commProfileKey); //댓글 작성자 프로필
+                            }
+
+                            //만약 작성일이 오늘날짜라면 시간만 보이도록 출력하고,
+                            //작성일이 오늘날짜가 아니라면 년,월,일 형식으로 출력한다.
+                            if (StaticInit.getToday("yyyy-MM-dd").equals(getDateFormat(commDateKey, "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"))) {
+                                data.setCommentDate(getDateFormat(commDateKey, "yyyy-MM-dd HH:mm:ss", "HH:mm")); //댓글 작성시간
+                            } else {
+                                data.setCommentDate(getDateFormat(commDateKey, "yyyy-MM-dd HH:mm:ss", "yyyy.MM.dd")); //댓글 작성날짜
+                            }
+
+                            data.setCommentContent(inputComment.getText().toString()); //댓글 내용
+
+
+                            GroupBoardViewActivity.groupBoardViewAdapter.listData.set(itemPositionKey, data);
+                            GroupBoardViewActivity.groupBoardViewAdapter.notifyItemChanged(itemPositionKey);
+
+                            //댓글 수정 정보 보내기
+                            CommentModifyData commentModifyTask = new CommentModifyData();
+                            //게시글 index, 댓글 index, 댓글 수정내용 순서
+                            commentModifyTask.execute("http://" + IP_ADDRESS + "/group/comment_modify.php", String.valueOf(boardIdx), String.valueOf(commIdxKey), inputComment.getText().toString());
+
+
+
+                            // 댓글 작성 영역 비활성화
+                            commentArea.setVisibility(View.GONE);
+
+                            // 댓글 수정 버튼 비활성화
+                            commentModifyBtn.setVisibility(View.GONE);
+
+                            // 댓글 입력란 초기화
+                            inputComment.setText("");
+//                            Intent intent = new Intent(GroupBoardViewActivity.this, GroupBoardViewActivity.class);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                            startActivity(intent);
+//                            overridePendingTransition(0, 0);
+                        }
+                    });
+
+
                     break;
             }
         }
@@ -279,7 +378,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(false); // 스크롤 중복 방지
 
-        groupBoardViewAdapter = new GroupBoardViewAdapter();
+        groupBoardViewAdapter = new GroupBoardViewAdapter(GroupBoardViewActivity.this);
         recyclerView.setAdapter(groupBoardViewAdapter);
     }
 
@@ -324,6 +423,100 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
             //작성자 이메일, 댓글내용, 게시글 index 순서
             String postParameters = "userEmail=" + userEmail + "&commContent=" + commContent + "&boardIdx=" + boardIdx;
+
+            try {
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.e(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                } else {
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+
+                return sb.toString().trim();
+
+
+            } catch (Exception e) {
+
+                Log.e(TAG, "GetData : Error ", e);
+                errorString = e.toString();
+
+                return null;
+            }
+
+        }
+    }
+
+    //댓글 수정 정보 보내기
+    private class CommentModifyData extends AsyncTask<String, Void, String> {
+
+        ProgressDialog progressDialog;
+        String errorString = null;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(GroupBoardViewActivity.this,
+                    "Please Wait", null, true, true);
+        }
+
+
+        // 에러가 있는 경우 에러메시지를 보여주고 아니면 JSON을 파싱하여 화면에 보여주는 boardCommentResult 메소드를 호출합니다.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            progressDialog.dismiss();
+//            Log.e(TAG, "response - " + result);
+
+            if (result == null) {
+                Log.e(TAG, errorString);
+            } else {
+                jsonString = result;
+            }
+        }
+
+        // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
+        @Override
+        protected String doInBackground(String... params) {
+
+            String serverURL = params[0];
+            String boardIdx = params[1];
+            String commIdx = params[2];
+            String commeConModify = params[3];
+
+            //게시글 index, 댓글 index, 댓글 수정내용 순서
+            String postParameters = "boardIdx=" + boardIdx + "&commIdx=" + commIdx + "&commeConModify=" + commeConModify;
 
             try {
                 URL url = new URL(serverURL);
@@ -560,10 +753,11 @@ public class GroupBoardViewActivity extends AppCompatActivity {
         }
     }
 
-    //모임 댓글 정보 JSO 파싱 후, 데이터 저장하기
+    //모임 댓글 정보 JSON 파싱 후, 데이터 저장하기
     private void boardCommentResult() {
 
         String TAG_JSON = "boardComment";
+        String TAG_COMMENT_IDX = "commIdx"; //댓글 index
         String TAG_COMMENT_USER = "commUser"; //댓글 작성자
         String TAG_COMMENT_CONTENT = "commContent"; //댓글 내용
         String TAG_COMMENT_DATE = "commDate"; //댓글 작성일
@@ -579,6 +773,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
                 JSONObject item = jsonArray.getJSONObject(i);
 
+                String commIdx = item.getString(TAG_COMMENT_IDX);
                 String commUser = item.getString(TAG_COMMENT_USER);
                 String commContent = item.getString(TAG_COMMENT_CONTENT);
                 String commDate = item.getString(TAG_COMMENT_DATE);
@@ -588,6 +783,8 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
                 // 각 List의 값들을 data 객체에 set 해줍니다.
                 GroupBoardViewData data = new GroupBoardViewData();
+
+                data.setCommentIdx(Integer.parseInt(commIdx));
 
                 //TODO 대댓글 표시 고민해보기
                 // 대댓글인 경우
@@ -631,7 +828,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
 
 
             //댓글이 없을 경우, 댓글이 없다는 문구를 보여준다.
-            if(groupBoardViewAdapter.listData.size() == 0){
+            if (groupBoardViewAdapter.listData.size() == 0) {
                 noneContent.setVisibility(View.VISIBLE);
             } else {
                 noneContent.setVisibility(View.GONE);
@@ -681,7 +878,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
                 boardContent.setText(Html.fromHtml(boardInfoList.get(2))); //게시글 내용
                 userName.setText(boardInfoList.get(3)); //작성자 이름
 
-                if(boardInfoList.get(6).equals("null")){
+                if (boardInfoList.get(6).equals("null")) {
                     Glide.with(GroupBoardViewActivity.this)
                             .load("http://www.togetherme.tk/static/images/icon_profile.png")
                             .override(500, 500)
@@ -704,7 +901,7 @@ public class GroupBoardViewActivity extends AppCompatActivity {
                 boardView.setText(boardInfoList.get(5)); //조회수
 
                 //게시글 작성자와 로그인한 이메일이 다를 경우, 게시글 수정버튼을 숨긴다
-                if(!boardInfoList.get(7).equals(loginUserId)) {
+                if (!boardInfoList.get(7).equals(loginUserId)) {
                     boardUtilBtn.setVisibility(View.GONE);
                 }
             }

@@ -6,6 +6,7 @@ public class GroupBoardViewData {
     private String commentDate; //댓글 작성일
     private String commentContent; //댓글 내용
     private String userEmail; //댓글 내용
+    private int commentIdx; //댓글 index
 
     public String getUserProfile() {
         return userProfile;
@@ -45,5 +46,13 @@ public class GroupBoardViewData {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public int getCommentIdx() {
+        return commentIdx;
+    }
+
+    public void setCommentIdx(int commentIdx) {
+        this.commentIdx = commentIdx;
     }
 }

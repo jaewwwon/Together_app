@@ -237,7 +237,9 @@ public class GroupScheduleActivity extends AppCompatActivity {
         // doInBackground 메소드에서 서버에 있는 PHP 파일을 실행시키고, 응답을 저장하고, 스트링으로 변환하여 리턴합니다.
         @Override
         protected String doInBackground(String... params) {
+
             PAGE_LOAD_NUM += 10;
+
             String serverURL = params[0];
             String groupIdx = params[1];
 //            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "WHERE DATE(sc_date) >= '" + getToday() + "' ORDER BY sc_date DESC";

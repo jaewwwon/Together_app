@@ -121,7 +121,7 @@ public class GroupBoardWriteActivity extends AppCompatActivity {
                 data.setBoardView(0);
                 data.setBoardIdx(getBoardIdx);
 
-                GroupBoardActivity.groupBoardAdapter.addItem(0, data);
+                GroupBoardActivity.groupBoardAdapter.addFirstItem(0, data);
                 GroupBoardActivity.groupBoardAdapter.notifyDataSetChanged();
 
 

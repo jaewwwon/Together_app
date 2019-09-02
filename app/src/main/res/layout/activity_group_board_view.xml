@@ -24,15 +24,15 @@
         android:id="@+id/pageGroupTit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
-        android:maxLines="1"
+        android:layout_marginRight="50dp"
         android:ellipsize="end"
-        android:textAlignment="center"
+        android:maxLines="1"
         android:text="모임"
+        android:textAlignment="center"
         android:textColor="#333"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -273,23 +273,23 @@
                 app:layout_constraintTop_toTopOf="@+id/textview2" />
 
             <!--<TextView-->
-                <!--android:id="@+id/boardComment"-->
-                <!--android:layout_width="25dp"-->
-                <!--android:layout_height="25dp"-->
-                <!--android:background="@drawable/style_normal_border"-->
-                <!--android:gravity="center"-->
-                <!--android:text="0"-->
-                <!--android:textColor="#333"-->
-                <!--app:layout_constraintBottom_toBottomOf="@+id/userProfile"-->
-                <!--app:layout_constraintEnd_toStartOf="@+id/guideline10"-->
-                <!--app:layout_constraintTop_toTopOf="@+id/userProfile" />-->
+            <!--android:id="@+id/boardComment"-->
+            <!--android:layout_width="25dp"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:background="@drawable/style_normal_border"-->
+            <!--android:gravity="center"-->
+            <!--android:text="0"-->
+            <!--android:textColor="#333"-->
+            <!--app:layout_constraintBottom_toBottomOf="@+id/userProfile"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/guideline10"-->
+            <!--app:layout_constraintTop_toTopOf="@+id/userProfile" />-->
 
             <TextView
                 android:id="@+id/boardContent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="180dp"
                 android:layout_marginTop="8dp"
+                android:minHeight="180dp"
                 android:text="게시글 내용"
                 android:textColor="#333"
                 app:layout_constraintEnd_toStartOf="@+id/guideline10"
@@ -344,8 +344,9 @@
                 android:id="@+id/commentList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="200dp"
                 android:layout_marginTop="8dp"
+                android:minHeight="120dp"
+                android:paddingBottom="60dp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline10"
                 app:layout_constraintStart_toStartOf="@+id/guideline9"
                 app:layout_constraintTop_toBottomOf="@+id/textView39" />
@@ -353,31 +354,32 @@
             <TextView
                 android:id="@+id/noneContent"
                 android:layout_width="0dp"
-                android:layout_height="200dp"
-                android:text="등록된 댓글이 없습니다."
+                android:layout_height="120dp"
                 android:background="#fff"
                 android:gravity="center"
+                android:text="등록된 댓글이 없습니다."
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
-            <TextView
-                android:id="@+id/commentButton"
-                android:layout_width="85dp"
-                android:layout_height="38dp"
-                android:layout_marginTop="24dp"
-                android:gravity="center"
-                android:text="댓글쓰기"
-                android:textColor="#333"
-                android:background="@drawable/style_button_normal"
-                app:layout_constraintEnd_toStartOf="@+id/guideline10"
-                app:layout_constraintHorizontal_bias="0.501"
-                app:layout_constraintStart_toStartOf="@+id/guideline9"
-                app:layout_constraintTop_toBottomOf="@+id/commentList" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/commentButton"
+        android:layout_width="85dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/style_button_normal"
+        android:gravity="center"
+        android:text="댓글쓰기"
+        android:textColor="#333"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/boardUtilBtn"
@@ -386,8 +388,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:scaleType="centerCrop"
         android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/img_btn_util" />
@@ -442,6 +444,20 @@
             android:background="@drawable/style_button_green"
             android:text="등록"
             android:textColor="#fff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/inputComment"
+            app:layout_constraintTop_toTopOf="@+id/inputComment" />
+
+        <Button
+            android:id="@+id/commentModifyBtn"
+            android:layout_width="62dp"
+            android:layout_height="34dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/style_button_green"
+            android:text="수정"
+            android:textColor="#fff"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/inputComment"

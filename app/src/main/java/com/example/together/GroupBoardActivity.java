@@ -58,6 +58,9 @@ public class GroupBoardActivity extends AppCompatActivity {
     ImageView boardAddBtn; //게시글 추가 버튼
     TextView noneContent; //컨텐츠가 없을 경우 표시되는 문구
 
+    private int PAGE_LOAD_NUM = 0; //페이지 로드 수
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +156,8 @@ public class GroupBoardActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        PAGE_LOAD_NUM = 0;
+
         //모임 멤버 정보 JSON 가져오기
         GetgroupMemberData groupMemberTask = new GetgroupMemberData();
         groupMemberTask.execute("http://" + IP_ADDRESS + "/db/group_member.php", "");
@@ -180,6 +185,31 @@ public class GroupBoardActivity extends AppCompatActivity {
 
         groupBoardAdapter = new GroupBoardAdapter();
         recyclerView.setAdapter(groupBoardAdapter);
+
+        // Pagination
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount();
+
+                //리스트 마지막(바닥) 도착!!!!! 다음 페이지 데이터 로드!!
+                if (lastVisibleItemPosition == itemTotalCount - 1) {
+
+                    //모임 게시글 정보 JSON 가져오기
+                    GetGroupBoardData groupBoardTask = new GetGroupBoardData();
+                    groupBoardTask.execute("http://" + IP_ADDRESS + "/db/group_board.php", String.valueOf(PAGE_GROUP_INDEX));
+                }
+
+            }
+        });
     }
 
     //모임 게시판 정보 JSON 가져오기
@@ -219,8 +249,13 @@ public class GroupBoardActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
+            PAGE_LOAD_NUM += 10;
+
+            Log.e(TAG, "요청하는 아이템 수 : " + PAGE_LOAD_NUM);
+
             String serverURL = params[0];
-            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY board_idx ASC" + "&joinUser=" + "LEFT JOIN user ON group_board.board_user = user.user_email";
+            String postParameters = "groupIdx=" + PAGE_GROUP_INDEX + "&whereTxt=" + "ORDER BY board_idx DESC" + "&joinUser=" + "LEFT JOIN user ON group_board.board_user = user.user_email" + "&limitTxt=" + PAGE_LOAD_NUM;
+
 
             try {
                 URL url = new URL(serverURL);
@@ -338,7 +373,7 @@ public class GroupBoardActivity extends AppCompatActivity {
                 data.setBoardComment(Integer.parseInt(commentCount));
 
                 // 각 값이 들어간 data를 adapter에 추가합니다.
-                groupBoardAdapter.addItem(0, data);
+                groupBoardAdapter.addItem(data);
 
             }
 
@@ -347,7 +382,7 @@ public class GroupBoardActivity extends AppCompatActivity {
 
 //            Log.e(TAG, "목록 아이템 수: " + groupBoardAdapter.listData.size());
 
-            if(groupBoardAdapter.listData.size() == 0){
+            if (groupBoardAdapter.listData.size() == 0) {
                 noneContent.setVisibility(View.VISIBLE);
             } else {
                 noneContent.setVisibility(View.GONE);
@@ -488,7 +523,7 @@ public class GroupBoardActivity extends AppCompatActivity {
                 //로그인한 이메일과 모임장 또는 모임가입 회원의 이메일이 다를 경우에는 게시글 추가 버튼을 나타낸다.
                 Log.e(TAG, "로그인 ID: " + loginUserId);
                 Log.e(TAG, "모임장 ID: " + PAGE_GROUP_HOST);
-                if(PAGE_GROUP_HOST.equals(loginUserId) || groupMemberList.contains(loginUserId)){
+                if (PAGE_GROUP_HOST.equals(loginUserId) || groupMemberList.contains(loginUserId)) {
                     boardAddBtn.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(GroupBoardActivity.this, "모임멤버만 이용할 수 있습니다.", Toast.LENGTH_SHORT).show();

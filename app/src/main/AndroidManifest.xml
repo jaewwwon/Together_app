@@ -124,6 +124,12 @@
             android:name=".PopupBoardUtilActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
+        <!-- 댓글 수정/삭제 알림 팝업 -->
+        <activity
+            android:name=".PopupCommentUtilActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+
         <!-- 모임 상세(사진첩) 화면 -->
         <activity android:name=".GroupPhotoActivity" />
 

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.together.StaticInit.IP_ADDRESS;
 import static com.example.together.StaticInit.PAGE_GROUP_HOST;
 import static com.example.together.StaticInit.PAGE_GROUP_INDEX;
 import static com.example.together.StaticInit.PAGE_GROUP_NAME;
@@ -47,7 +48,6 @@ public class GroupInfoActivity extends AppCompatActivity {
     //속성(변수) 선언
     final Context context = this;
     private static String TAG = "GroupInfoActivity";
-    private static String IP_ADDRESS = "13.125.221.240"; //JSON 데이터를 가져올 IP주소
     private String jsonString; //json 데이터 파일
     private GroupInfoAdapter groupInfoAdapter; //모임정보 어댑터
     List<String> groupMemberList; //모임 멤버 정보 파싱 데이터 리스트

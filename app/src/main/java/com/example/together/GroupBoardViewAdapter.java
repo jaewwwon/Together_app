@@ -1,6 +1,8 @@
 package com.example.together;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +25,10 @@ public class GroupBoardViewAdapter extends RecyclerView.Adapter<GroupBoardViewAd
     Context context;
     private static String TAG = "GroupBoardViewAdapter";
     public ArrayList<GroupBoardViewData> listData = new ArrayList<>(); //adapter에 들어갈 list
+
+    public GroupBoardViewAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -66,7 +72,7 @@ public class GroupBoardViewAdapter extends RecyclerView.Adapter<GroupBoardViewAd
         private TextView userName; //댓글 작성자 이름
         private TextView commentDate; //댓글 작성일
         private TextView commentContent; //댓글 내용
-        private ImageView utilBtn; //댓글 컨트롤(수정, 삭제, 답글) 버튼
+        private ImageView utilBtn; //댓글 컨트롤(수정/삭제) 버튼
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +98,27 @@ public class GroupBoardViewAdapter extends RecyclerView.Adapter<GroupBoardViewAd
             if(!data.getUserEmail().equals(loginUserId)){
                 utilBtn.setVisibility(View.GONE);
             }
+
+            // 댓글 수정/삭제 버튼을 눌렀을 경우
+            utilBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PopupCommentUtilActivity.class);
+                    intent.putExtra("itemPositionOri", getAdapterPosition()); //아이템 위치값
+                    intent.putExtra("itemSizeOri", listData.size()); //아이템 크기
+                    intent.putExtra("commIdxOri", data.getCommentIdx()); // 댓글 인덱스
+                    intent.putExtra("commContentOri", data.getCommentContent()); // 댓글 내용
+
+
+                    intent.putExtra("commNameOri", data.getUserName()); // 작성자 이름
+                    intent.putExtra("commEmailOri", data.getUserEmail()); // 작성자 이메일
+                    intent.putExtra("commProfileOri", data.getUserProfile()); // 작성자 프로필
+                    intent.putExtra("commDateOri", data.getCommentDate()); // 작성일
+
+                    ((Activity) context).startActivityForResult(intent, 6000);
+//                    v.getContext().startActivity(intent);
+                }
+            });
 
 
 //            // 해당 리사이클러뷰 아이템을 클릭했을 경우
